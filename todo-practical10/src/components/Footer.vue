@@ -34,10 +34,10 @@ export default {
         async addItem() {
             const newItem = { title: this.newItem, state: false };
 
-            const res = await axios.post(`${process.env.VUE_APP_BACKEND_URL}/todo`, newItem);
-            newItem.id = parseInt(res.data, 10);
             this.state = 'list';
             if (this.newItem !== '') {
+                const res = await axios.post(`${process.env.VUE_APP_BACKEND_URL}/todo`, newItem);
+                newItem.id = parseInt(res.data, 10);
                 this.items.push(newItem);
             }
             this.newItem = '';
