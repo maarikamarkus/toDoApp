@@ -1,18 +1,19 @@
 <template lang="pug">
-    //-.perse
-        p tere
-        p  
-            | jou ville
-        h1(a="foo" b="bar").
-            mis teed
     .loginForm
-        .username
+        .username.formRow
+            .icon
+                font-awesome-icon(:icon="['far', 'user']")
             input(type="text" placeholder="Sisesta kasutajanimi" required)
-        .password
+        .password.formRow
+            .icon
+                font-awesome-icon(icon="lock")
             input(type="password" placeholder="Sisesta parool" required)
 
         .loginOuter
-            .login Logi sisse
+            .login 
+                .icon
+                    font-awesome-icon(icon="sign-in-alt")                                    
+                | Logi sisse
 </template>
 <script>
 export default {
@@ -33,12 +34,38 @@ export default {
     color: #086972;
 }
 
-.loginForm input {
-    font-size: 20px;
+.formRow .icon {
+    display: flex;
+    align-items: center;
+    padding: 0 13px 0 13px;
+    height: 100%;
+    text-align: center;
+}
+
+.formRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
     width: 100%;
-    padding: 7px;
-    margin-bottom: 7px;
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 15px;
+    border: 1px solid #086972;
+    border-radius: 3px;
+    transition: border 0.5s ease;
+}
+
+.loginForm input {
+    padding: 0 0 0 5px;
+    flex: 1 1 auto;
+    font-size: 20px;
     color: rgb(150, 150, 150);
+    height: 100%;
+    border: none;
+}
+
+.loginForm input:focus {
+    outline: none;
 }
 
 ::placeholder {
@@ -54,15 +81,14 @@ export default {
     cursor: pointer;
     color: white;
     display: inline-block;
-    padding: 7px 15px 7px 15px;
+    padding: 11px 17px 11px 17px;
     border: 1px solid #086972;
     border-radius: 3px;
     background-color: #01a9b4;
     transition: all 0.5s ease;
 }
 
-.login:hover, input:hover {
-    /*box-shadow: 0px 0px 10px 2px #87dfd6;*/
+.login:hover, .formRow:hover {
     border: 1px solid #87dfd6;
     border-radius: 3px;
 }
@@ -72,10 +98,9 @@ export default {
     color: #086972;
 }
 
-input {
-    border: 1px solid #086972;
-    border-radius: 3px;
-    transition: all 0.5s ease;
+.login .icon {
+    display: inline-block;
+    padding-right: 13px;
 }
 
 @media(max-width: 600px) {
