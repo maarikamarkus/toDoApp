@@ -21,6 +21,8 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-vue": "^6.2.2",
+    "pug": "^3.0.0",
+    "pug-plain-loader": "^1.0.0",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
@@ -41,7 +43,8 @@
         4
       ],
       "no-restricted-syntax": "off",
-      "no-console": "off"
+      "no-console": "off",
+      "no-trailing-spaces": "off"
     }
   },
   "browserslist": [
