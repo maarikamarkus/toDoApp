@@ -3,21 +3,39 @@
         .username.formRow
             .icon
                 font-awesome-icon(:icon="['far', 'user']")
-            input(type="text" placeholder="Sisesta kasutajanimi" required)
+            input(v-model="username" type="text" placeholder="Sisesta kasutajanimi" required)
         .password.formRow
             .icon
                 font-awesome-icon(icon="lock")
-            input(type="password" placeholder="Sisesta parool" required)
-
+            input(v-model="password" type="password" placeholder="Sisesta parool" required)
+        transition(name="warning")
+            .warning(v-if="error !== ''")
+                .icon {{emoji}}
+                | {{error}}
         .loginOuter
-            .login 
+            .login(v-on:click="login()") 
                 .icon
                     font-awesome-icon(icon="sign-in-alt")                                    
                 | Logi sisse
 </template>
 <script>
 export default {
+    data() {
+        return {
+            username: '',
+            password: '',
+            error: '',
+            emoji: '😭',
+        };
+    },
 
+    methods: {
+        login() {
+            this.error = 'sisselogimine ebaõnnestus!';
+            const user = { username: this.username, password: this.password };
+            console.log(user);
+        },
+    },
 };
 </script>
 <style>
@@ -98,9 +116,27 @@ export default {
     color: #086972;
 }
 
-.login .icon {
+.icon {
     display: inline-block;
     padding-right: 13px;
+}
+
+.warning {
+    background-color: #fbfd8a;
+    border: 1px solid #cdb30c;
+    border-radius: 3px;
+    padding: 13px;
+    margin-bottom: 17px;
+    height: 23px;
+    overflow: hidden;
+}
+
+.warning-enter {
+    height: 0;
+}
+
+.warning-enter-active {
+    transition: height 1s ease;
 }
 
 @media(max-width: 600px) {
