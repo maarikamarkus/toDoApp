@@ -127,26 +127,21 @@ app.post('/login', (req, res, next) => {
     });
 });
 
-app.post('/register', (req, res, next) => {
-    const usernameExists = query('SELECT * from users where username = ?', req.body.username);
-    usernameExists.then(rows => {
+app.post('/register', async (req, res, next) => {
+    try {
+        const rows = await query('SELECT * from users where username = ?', req.body.username);
         if (rows.length !== 0) {
             res.send({ error: "kasutajanimi juba kasutusel"});
             return;
         } else {
-            bcrypt.genSalt(10).then(salt => {
-                bcrypt.hash(req.body.password, salt).then(hash => {
-                    query('INSERT into users(username, password) values(?, ?)', [req.body.username, hash])
-                        .then(results => {
-                            res.send({ token: signToken(results.insertId) });
-                        })
-                        .catch(next);
-                });
-            });
+            const salt = await bcrypt.genSalt(10);
+            const hash = await bcrypt.hash(req.body.password, salt);
+            const results = await query('INSERT into users(username, password) values(?, ?)', [req.body.username, hash]);
+            res.send({ token: signToken(results.insertId) });
         }
-    }).catch(err => {
-        next(err);
-    });
+    } catch (error) {
+        next(error);
+    }
 })
 
 app.listen(port, () => console.log(`ToDo app listening at http://localhost:${port}`));
