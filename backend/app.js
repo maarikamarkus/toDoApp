@@ -41,7 +41,7 @@ app.use(express.json());
 
 app.get('/todo', passportAuth, (req, res, next) => {
 
-    pool.query('SELECT * from todo', (err, rows) => {
+    pool.query('SELECT * from todo where userId = ?', req.user.id, (err, rows) => {
         if (err) {
             next(err);
         }
@@ -57,6 +57,7 @@ app.get('/todo', passportAuth, (req, res, next) => {
 
 // add item to todo list
 app.post('/todo', passportAuth, (req, res, next) => {
+    req.body.userId = req.user.id;
     pool.query('insert into todo set ?', req.body, (error, results) => {
         if (error) {
             next(error);
@@ -67,7 +68,7 @@ app.post('/todo', passportAuth, (req, res, next) => {
 
 // delete item from todo list
 app.delete('/todo/:id', passportAuth, (req, res, next) => {
-    pool.query('delete from todo where id = ?', req.params.id, (error) => {
+    pool.query('delete from todo where id = ? and userId = ?', [req.params.id, req.user.id], (error) => {
         if (error) {
             next(error);
         }
@@ -77,7 +78,7 @@ app.delete('/todo/:id', passportAuth, (req, res, next) => {
 
 // update state of item in todo list
 app.put('/todo/:id', passportAuth, (req, res, next) => {
-    pool.query('update todo set state = not state where id = ?', req.params.id, (error) => {
+    pool.query('update todo set state = not state where id = ? and userId = ?', [req.params.id, req.user.id], (error) => {
         if (error) {
             next(error);
         }
