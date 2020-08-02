@@ -6,7 +6,17 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jsonwebtoken = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { promisify } = require('util');
 require('dotenv').config();
+
+function signToken(id) {
+    const payload = {
+        sub: id,
+        iat: Date.now()
+    };
+    
+    return jsonwebtoken.sign(payload, process.env.PP_SECRET);
+}
 
 const opts = { 
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -32,6 +42,7 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
 });
+const query = promisify(pool.query).bind(pool);
 
 const app = express();
 const port = process.env.PORT;
@@ -107,20 +118,35 @@ app.post('/login', (req, res, next) => {
                 next(err);
             }
 
-            if (result) {
-                const payload = {
-                    sub: rows[0].id,
-                    iat: Date.now()
-                };
-                
-                const signedToken = jsonwebtoken.sign(payload, process.env.PP_SECRET);
-        
-                res.send({ token: signedToken });
+            if (result) {      
+                res.send({ token: signToken(rows[0].id) });
             } else {
                 res.send({ error: 'salasõna pole küll see mis sa panid' });
             }
         });
     });
 });
+
+app.post('/register', (req, res, next) => {
+    const usernameExists = query('SELECT * from users where username = ?', req.body.username);
+    usernameExists.then(rows => {
+        if (rows.length !== 0) {
+            res.send({ error: "kasutajanimi juba kasutusel"});
+            return;
+        } else {
+            bcrypt.genSalt(10).then(salt => {
+                bcrypt.hash(req.body.password, salt).then(hash => {
+                    query('INSERT into users(username, password) values(?, ?)', [req.body.username, hash])
+                        .then(results => {
+                            res.send({ token: signToken(results.insertId) });
+                        })
+                        .catch(next);
+                });
+            });
+        }
+    }).catch(err => {
+        next(err);
+    });
+})
 
 app.listen(port, () => console.log(`ToDo app listening at http://localhost:${port}`));

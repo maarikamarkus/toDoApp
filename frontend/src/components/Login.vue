@@ -12,31 +12,60 @@
                 type="password" 
                 placeholder="Sisesta parool" 
                 required
-                @keypress.enter="login()")
+                @keypress.enter="register ? null : login()")
+        .confirmPassword.formRow(v-if="register")
+            .icon
+                font-awesome-icon(icon="lock")
+            input(
+                v-model="confirmPassword" 
+                type="password" 
+                placeholder="Kinnita parool" 
+                required
+                @keypress.enter="signUp()")
         transition(name="warning")
             .warning(v-if="error !== ''")
                 .icon {{emoji}}
                 | {{error}}
         .loginOuter
-            .login(v-on:click="login()") 
+            .left.button(v-on:click="login()" v-if="!register") 
                 .icon
                     font-awesome-icon(icon="sign-in-alt")                                    
                 | Logi sisse
+            .button(v-on:click="signUp()")
+                .icon
+                    font-awesome-icon(icon="user-plus")
+                | Registreeru
 </template>
 <script>
 import axios from 'axios';
+
+function hasProperty(object, field) {
+    return Object.prototype.hasOwnProperty.call(object, field);
+}
 
 export default {
     data() {
         return {
             username: '',
             password: '',
+            confirmPassword: '',
             error: '',
             emoji: '😭',
+            register: false,
         };
     },
 
     methods: {
+        checkLogin(res) {
+            if (hasProperty(res.data, 'token')) {
+                this.$emit('login', res.data.token);
+            } else if (hasProperty(res.data, 'error')) {
+                this.error = res.data.error;
+            } else {
+                this.error = 'esines suurem viga, helista Maarikale';
+            }
+        },
+
         async login() {
             if (this.username === '' || this.password === '') {
                 this.error = 'tühjad väljad';
@@ -44,11 +73,27 @@ export default {
             }
             const user = { username: this.username, password: this.password };
             const res = await axios.post(`${process.env.VUE_APP_BACKEND_URL}/login`, user);
-            if (Object.prototype.hasOwnProperty.call(res.data, 'token')) {
-                this.$emit('login', res.data.token);
-            } else {
-                this.error = 'sisselogimine ebaõnnestus!';
+            this.checkLogin(res);
+        },
+
+        async signUp() {
+            if (this.register) {
+                if (this.username === '' || this.password === '' || this.confirmPassword === '') {
+                    this.error = 'tühjad väljad';
+                    return;
+                }
+
+                if (this.password !== this.confirmPassword) {
+                    this.error = 'paroolid erinevad';
+                    return;
+                }
+
+                const user = { username: this.username, password: this.password };
+                const res = await axios.post(`${process.env.VUE_APP_BACKEND_URL}/register`, user);
+                this.checkLogin(res);
             }
+
+            this.register = true;
         },
     },
 };
@@ -59,7 +104,7 @@ export default {
 }
 
 .loginForm {
-    width: 300px;
+    width: 314px;
     left: 50%;
     margin-left: -150px;
     margin-top: 100px;
@@ -107,10 +152,10 @@ export default {
 
 .loginOuter {
     text-align: center;
-    margin: 7px;
+    margin-top: 7px;
 }
 
-.login {
+.button {
     cursor: pointer;
     color: white;
     display: inline-block;
@@ -121,12 +166,16 @@ export default {
     transition: all 0.5s ease;
 }
 
-.login:hover, .formRow:hover {
+.left {
+    margin-right: 14px;
+}
+
+.button:hover, .formRow:hover {
     border: 1px solid #87dfd6;
     border-radius: 3px;
 }
 
-.login:hover {
+.button:hover {
     background-color: #87dfd6;
     color: #086972;
 }
