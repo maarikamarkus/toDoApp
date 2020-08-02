@@ -13,14 +13,14 @@ const opts = {
     secretOrKey: process.env.PP_SECRET,
 };
 
-const user = {id: 1, username: 'maarika', password: '$2b$10$CoZDP4OAdaBdUTLNMnHPFOnDnQ1a2AUEq.uhx1HU3UIyo5Mxwzc9W'};
-
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    if (jwt_payload.sub === user.id) {
-        return done(null, user);
-    } else {
-        return done(null, false);
-    }
+    pool.query('SELECT * from users where id=?', jwt_payload.sub, (err, rows) => {
+        if (err || rows.length === 0) {
+            return done(null, false);
+        } else {
+            return done(null, rows[0]);
+        }
+    });
 }));
 
 const passportAuth = passport.authenticate('jwt', { session: false });
@@ -91,16 +91,24 @@ app.get('/todo/tere', (req, res) => {
 
 // login endpoint
 app.post('/login', (req, res, next) => {
-    if (req.body.username === user.username) {
+    pool.query('SELECT id, username, password from users where username=?', req.body.username, (err, rows) => {
+        if (err) {
+            next(err);
+        }
 
-        bcrypt.compare(req.body.password, user.password, (err, result) => {
+        if (rows.length === 0) {
+            res.send({ error: "sellist kasutajat ei leitud" });
+            return;
+        }
+
+        bcrypt.compare(req.body.password, rows[0].password, (err, result) => {
             if (err) {
                 next(err);
             }
 
             if (result) {
                 const payload = {
-                    sub: user.id,
+                    sub: rows[0].id,
                     iat: Date.now()
                 };
                 
@@ -111,9 +119,7 @@ app.post('/login', (req, res, next) => {
                 res.send({ error: 'salasõna pole küll see mis sa panid' });
             }
         });
-    } else {
-        res.send({ error: 'miskit läks nüüd küll pahasti' });
-    }
+    });
 });
 
 app.listen(port, () => console.log(`ToDo app listening at http://localhost:${port}`));

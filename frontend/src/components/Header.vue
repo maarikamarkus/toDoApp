@@ -1,7 +1,6 @@
 <template>
     <div>
         <div class="date">
-            <!--<h1>{{date}}</h1>-->
             <div id="dayOfMonth">{{dayOfMonth}}</div>
             <div id="secondColumn">
                 <div id="month">{{month}}</div>
