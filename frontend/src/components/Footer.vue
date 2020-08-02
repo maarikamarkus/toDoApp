@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
     props: ['items'],
 
@@ -36,9 +34,7 @@ export default {
 
             this.state = 'list';
             if (this.newItem !== '') {
-                const res = await axios.post(`${process.env.VUE_APP_BACKEND_URL}/todo`, newItem);
-                newItem.id = parseInt(res.data, 10);
-                this.items.push(newItem);
+                this.$emit('addItem', newItem);
             }
             this.newItem = '';
         },

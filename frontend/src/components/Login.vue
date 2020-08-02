@@ -19,6 +19,8 @@
                 | Logi sisse
 </template>
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -30,10 +32,18 @@ export default {
     },
 
     methods: {
-        login() {
-            this.error = 'sisselogimine ebaõnnestus!';
+        async login() {
+            if (this.username === '' || this.password === '') {
+                this.error = 'tühjad väljad';
+                return;
+            }
             const user = { username: this.username, password: this.password };
-            console.log(user);
+            const res = await axios.post(`${process.env.VUE_APP_BACKEND_URL}/login`, user);
+            if (Object.prototype.hasOwnProperty.call(res.data, 'token')) {
+                this.$emit('login', res.data.token);
+            } else {
+                this.error = 'sisselogimine ebaõnnestus!';
+            }
         },
     },
 };

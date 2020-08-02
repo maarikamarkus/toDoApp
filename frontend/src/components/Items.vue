@@ -19,26 +19,16 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
     props: ['items'],
 
     methods: {
-        findItem(id) {
-            return this.items.find((x) => x.id === id);
-        },
-
         markDoneUndone(id) {
-            const item = this.findItem(id);
-            item.state = !item.state;
-            axios.put(`${process.env.VUE_APP_BACKEND_URL}/todo/${id}`);
+            this.$emit('markDoneUndone', id);
         },
 
         deleteItem(id) {
-            axios.delete(`${process.env.VUE_APP_BACKEND_URL}/todo/${id}`);
-            const itemIndex = this.items.findIndex((x) => x.id === id);
-            this.items.splice(itemIndex, 1);
+            this.$emit('deleteItem', id);
         },
     },
 
