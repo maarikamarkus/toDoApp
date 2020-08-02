@@ -7,7 +7,12 @@
         .password.formRow
             .icon
                 font-awesome-icon(icon="lock")
-            input(v-model="password" type="password" placeholder="Sisesta parool" required)
+            input(
+                v-model="password" 
+                type="password" 
+                placeholder="Sisesta parool" 
+                required
+                @keypress.enter="login()")
         transition(name="warning")
             .warning(v-if="error !== ''")
                 .icon {{emoji}}

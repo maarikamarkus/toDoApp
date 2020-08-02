@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const plaintextPW = 'markus';
+const plaintextPW = 'sokk';
 
 bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(plaintextPW, salt, (err, hash) => {

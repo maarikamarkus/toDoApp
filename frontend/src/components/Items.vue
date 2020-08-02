@@ -1,21 +1,15 @@
-<template>
-    <div class="items">
-        <ul v-for="item in sortedItems" :key="item.id">
-            <div class="listRow" >
-                <div class="delete"
-                    v-on:click="deleteItem(item.id)">×</div>
-                <li :class="item.state ? 'checked' : ''"
-                    v-on:click="markDoneUndone(item.id)">
-                    {{item.title}}
-                    <transition name="lineThrough">
-                        <span v-if="item.state" class="lineThrough"></span>
-                    </transition>
-                </li>
-                <div :class="item.state ? 'checkBubble checked' : 'checkBubble'"
-                    v-on:click="markDoneUndone(item.id)"></div>
-            </div>
-        </ul>
-    </div>
+<template lang="pug">
+    .items
+        ul(v-for="item in sortedItems" :key="item.id")
+            .listRow
+                .delete(v-on:click="deleteItem(item.id)") ×
+                li(:class="item.state ? 'checked' : ''"
+                    v-on:click="markDoneUndone(item.id)")
+                    | {{item.title}}
+                    transition(name="lineThrough")
+                        span.lineThrough(v-if="item.state")
+                div(:class="item.state ? 'checkBubble checked' : 'checkBubble'"
+                    v-on:click="markDoneUndone(item.id)")
 </template>
 
 <script>

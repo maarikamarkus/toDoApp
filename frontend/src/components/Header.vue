@@ -1,14 +1,11 @@
-<template>
-    <div>
-        <div class="date">
-            <div id="dayOfMonth">{{dayOfMonth}}</div>
-            <div id="secondColumn">
-                <div id="month">{{month}}</div>
-                <div id="year">{{year}}</div>
-            </div>
-            <div id="dayOfWeek">{{dayOfWeek}}</div>
-        </div>
-    </div>
+<template lang="pug">
+    div
+        .date
+            #dayOfMonth {{dayOfMonth}}
+            #secondColumn
+                #month {{month}}
+                #year {{year}}
+            #dayOfWeek {{dayOfWeek}}
 </template>
 
 <script>

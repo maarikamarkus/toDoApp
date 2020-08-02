@@ -1,15 +1,13 @@
-<template>
-    <div class="footer">
-        <div id="button" v-on:click="showAddItem()" :class="buttonClasses">+</div>
-        <input
+<template lang="pug">
+    .footer
+        #button(v-on:click="showAddItem()" :class="buttonClasses") +
+        input(
             v-model="newItem"
             type="text"
             id="addItem"
             :class="fieldClasses"
             @keypress.enter="addItem()"
-            ref="inputField"
-        />
-    </div>
+            ref="inputField")
 </template>
 
 <script>
