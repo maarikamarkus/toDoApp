@@ -95,9 +95,9 @@ export default {
 <style>
 #app {
   font-family: 'Montserrat', sans-serif;
-  width: 500px;
+  width: 600px;
   left: 50%;
-  margin-left: -250px;
+  margin-left: -300px;
   position: relative;
   color: #086972;
 }

@@ -43,6 +43,7 @@ export default {
 .listRow {
     cursor: pointer;
     padding: 5px;
+    /*width: 600px;*/
 }
 
 .items {

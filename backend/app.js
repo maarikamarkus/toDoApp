@@ -103,6 +103,7 @@ app.get('/todo/tere', (req, res) => {
 
 // login endpoint
 app.post('/login', (req, res, next) => {
+    // const rows = await query(...) 
     pool.query('SELECT id, username, password from users where username=?', req.body.username, (err, rows) => {
         if (err) {
             next(err);
