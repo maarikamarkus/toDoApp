@@ -137,4 +137,6 @@ app.post('/register', async (req, res, next) => {
     }
 });
 
+app.use(express.static('../frontend/dist'));
+
 app.listen(port, () => console.log(`ToDo app listening at http://localhost:${port}`));
