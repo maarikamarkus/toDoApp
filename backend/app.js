@@ -50,51 +50,49 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
-app.get('/todo', passportAuth, (req, res, next) => {
-
-    pool.query('SELECT * from todo where userId = ?', req.user.id, (err, rows) => {
-        if (err) {
-            next(err);
-        }
-
+app.get('/todo', passportAuth, async (req, res, next) => {
+    try {
+        const rows = await query('SELECT * from todo where userId = ?', req.user.id);
         const todo = [];
         for (const row of rows) {
             const state = row.state === 1;
             todo.push({ id: row.id, title: row.title, state });
         }
         res.send(todo);
-    });
+    } catch (error) {
+        next(error);
+    }
 });
 
 // add item to todo list
-app.post('/todo', passportAuth, (req, res, next) => {
+app.post('/todo', passportAuth, async (req, res, next) => {
     req.body.userId = req.user.id;
-    pool.query('insert into todo set ?', req.body, (error, results) => {
-        if (error) {
-            next(error);
-        }
+    try {
+        const results = await query('insert into todo set ?', req.body);
         res.send(`${results.insertId}`);
-    });
+    } catch (error) {
+        next(error);
+    }
 });
 
 // delete item from todo list
-app.delete('/todo/:id', passportAuth, (req, res, next) => {
-    pool.query('delete from todo where id = ? and userId = ?', [req.params.id, req.user.id], (error) => {
-        if (error) {
-            next(error);
-        }
+app.delete('/todo/:id', passportAuth, async (req, res, next) => {
+    try {
+        await query('delete from todo where id = ? and userId = ?', [req.params.id, req.user.id]);
         res.send('wat');
-    });
+    } catch (error) {
+        next(error);
+    }
 });
 
 // update state of item in todo list
-app.put('/todo/:id', passportAuth, (req, res, next) => {
-    pool.query('update todo set state = not state where id = ? and userId = ?', [req.params.id, req.user.id], (error) => {
-        if (error) {
-            next(error);
-        }
+app.put('/todo/:id', passportAuth, async (req, res, next) => {
+    try {
+        await query('update todo set state = not state where id = ? and userId = ?', [req.params.id, req.user.id]);
         res.send('aim scared');
-    });
+    } catch (error) {
+        next(error);
+    }
 });
 
 app.get('/todo/tere', (req, res) => {
@@ -102,30 +100,23 @@ app.get('/todo/tere', (req, res) => {
 });
 
 // login endpoint
-app.post('/login', (req, res, next) => {
-    // const rows = await query(...) 
-    pool.query('SELECT id, username, password from users where username=?', req.body.username, (err, rows) => {
-        if (err) {
-            next(err);
-        }
-
+app.post('/login', async (req, res, next) => {
+    try {
+        const rows = await query('SELECT id, username, password from users where username=?', req.body.username);
         if (rows.length === 0) {
             res.send({ error: "sellist kasutajat ei leitud" });
             return;
         }
-
-        bcrypt.compare(req.body.password, rows[0].password, (err, result) => {
-            if (err) {
-                next(err);
-            }
-
-            if (result) {      
-                res.send({ token: signToken(rows[0].id) });
-            } else {
-                res.send({ error: 'salasõna pole küll see mis sa panid' });
-            }
-        });
-    });
+    
+        const result = await bcrypt.compare(req.body.password, rows[0].password);
+        if (result) {      
+            res.send({ token: signToken(rows[0].id) });
+        } else {
+            res.send({ error: 'sisselogimine ebaõnnestus' });
+        }
+    } catch (error) {
+        next(error);
+    } 
 });
 
 app.post('/register', async (req, res, next) => {
