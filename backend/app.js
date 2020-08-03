@@ -23,14 +23,17 @@ const opts = {
     secretOrKey: process.env.PP_SECRET,
 };
 
-passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    pool.query('SELECT * from users where id=?', jwt_payload.sub, (err, rows) => {
-        if (err || rows.length === 0) {
+passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
+    try {
+        const rows = await query('SELECT * from users where id=?', jwt_payload.sub);
+        if (rows.length === 0) {
             return done(null, false);
         } else {
             return done(null, rows[0]);
         }
-    });
+    } catch (error) {
+        return done(null, false);
+    }
 }));
 
 const passportAuth = passport.authenticate('jwt', { session: false });
