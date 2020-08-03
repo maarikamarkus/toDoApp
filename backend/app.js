@@ -3,7 +3,7 @@ const cors = require('cors');
 const mysql = require('mysql');
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
+const { ExtractJwt } = require('passport-jwt');
 const jsonwebtoken = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { promisify } = require('util');
@@ -12,31 +12,16 @@ require('dotenv').config();
 function signToken(id) {
     const payload = {
         sub: id,
-        iat: Date.now()
+        iat: Date.now(),
     };
-    
+
     return jsonwebtoken.sign(payload, process.env.PP_SECRET);
 }
 
-const opts = { 
+const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.PP_SECRET,
 };
-
-passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
-    try {
-        const rows = await query('SELECT * from users where id=?', jwt_payload.sub);
-        if (rows.length === 0) {
-            return done(null, false);
-        } else {
-            return done(null, rows[0]);
-        }
-    } catch (error) {
-        return done(null, false);
-    }
-}));
-
-const passportAuth = passport.authenticate('jwt', { session: false });
 
 const pool = mysql.createPool({
     connectionLimit: process.env.DB_CONNECTION_LIMIT,
@@ -46,6 +31,20 @@ const pool = mysql.createPool({
     database: process.env.DB_DATABASE,
 });
 const query = promisify(pool.query).bind(pool);
+
+passport.use(new JwtStrategy(opts, async (jwtPayload, done) => {
+    try {
+        const rows = await query('SELECT * from users where id=?', jwtPayload.sub);
+        if (rows.length === 0) {
+            return done(null, false);
+        }
+        return done(null, rows[0]);
+    } catch (error) {
+        return done(null, false);
+    }
+}));
+
+const passportAuth = passport.authenticate('jwt', { session: false });
 
 const app = express();
 const port = process.env.PORT;
@@ -107,36 +106,35 @@ app.post('/login', async (req, res, next) => {
     try {
         const rows = await query('SELECT id, username, password from users where username=?', req.body.username);
         if (rows.length === 0) {
-            res.send({ error: "sellist kasutajat ei leitud" });
+            res.send({ error: 'sellist kasutajat ei leitud' });
             return;
         }
-    
+
         const result = await bcrypt.compare(req.body.password, rows[0].password);
-        if (result) {      
+        if (result) {
             res.send({ token: signToken(rows[0].id) });
         } else {
             res.send({ error: 'sisselogimine ebaõnnestus' });
         }
     } catch (error) {
         next(error);
-    } 
+    }
 });
 
 app.post('/register', async (req, res, next) => {
     try {
         const rows = await query('SELECT * from users where username = ?', req.body.username);
         if (rows.length !== 0) {
-            res.send({ error: "kasutajanimi juba kasutusel"});
+            res.send({ error: 'kasutajanimi juba kasutusel' });
             return;
-        } else {
-            const salt = await bcrypt.genSalt(10);
-            const hash = await bcrypt.hash(req.body.password, salt);
-            const results = await query('INSERT into users(username, password) values(?, ?)', [req.body.username, hash]);
-            res.send({ token: signToken(results.insertId) });
         }
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(req.body.password, salt);
+        const results = await query('INSERT into users(username, password) values(?, ?)', [req.body.username, hash]);
+        res.send({ token: signToken(results.insertId) });
     } catch (error) {
         next(error);
     }
-})
+});
 
 app.listen(port, () => console.log(`ToDo app listening at http://localhost:${port}`));
