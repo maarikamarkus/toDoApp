@@ -2,14 +2,17 @@
     .items
         ul(v-for="item in sortedItems" :key="item.id")
             .listRow
-                .delete(v-on:click="deleteItem(item.id)") ×
+                .bubbleOuter
+                    .bubble.delete(v-on:click="deleteItem(item.id)") ×
                 li(:class="item.state ? 'checked' : ''"
                     v-on:click="markDoneUndone(item.id)")
-                    | {{item.title}}
-                    transition(name="lineThrough")
-                        span.lineThrough(v-if="item.state")
-                div(:class="item.state ? 'checkBubble checked' : 'checkBubble'"
-                    v-on:click="markDoneUndone(item.id)")
+                    span.title 
+                        | {{item.title}}
+                        transition(name="lineThrough")
+                            span.lineThrough(v-if="item.state")
+                .bubbleOuter
+                    div(:class="'bubble checkBubble ' + (item.state ? 'checked' : '')"
+                        v-on:click="markDoneUndone(item.id)")
 </template>
 
 <script>
@@ -42,8 +45,11 @@ export default {
 <style>
 .listRow {
     cursor: pointer;
-    padding: 5px;
-    /*width: 600px;*/
+    padding-bottom: 5px;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    height: 31px;
 }
 
 .items {
@@ -57,10 +63,18 @@ export default {
 .items ul li {
     color: black;
     list-style: none;
-    display: inline-block;
-    position: relative;
+    display: flex;
+    flex: 1 1 auto;
     font-size: 23px;
     transition: color 1s ease;
+    min-width: 0;
+}
+
+.title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    position: relative;
 }
 
 .items .checked {
@@ -88,28 +102,29 @@ export default {
     width: 0;
 }
 
+.bubble {
+    width: 15px;
+    height: 15px;
+    border:1px solid #086972;
+    border-radius: 100%;
+}
+
+.bubbleOuter {
+    display: flex;
+    flex: 0 0 15px;
+    height: 100%;
+    align-items: center;
+}
+
 .delete {
     font-size: 25px;
     line-height: 15px;
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    top: 0px;
     margin-right: 11px;
-    position: relative;
-    border:1px solid #086972;
-    border-radius: 100%;
     color: #086972;
 }
 
 .checkBubble {
-    border:1px solid #086972;
-    border-radius: 100%;
-    width: 15px;
-    height: 15px;
-    float: right;
-    top: 5px;
-    position: relative;
+    margin-left: 11px;
 }
 
 .delete, .checkBubble {
