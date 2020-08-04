@@ -38,7 +38,7 @@ export default {
         },
 
         onkeydown(e) {
-            if (e.code === 'Minus' && this.state === 'list') {
+            if ((e.code === 'Minus' || e.code === 'NumpadAdd') && this.state === 'list') {
                 e.preventDefault();
                 this.showAddItem();
             }
