@@ -46,11 +46,9 @@ passport.use(new JwtStrategy(opts, async (jwtPayload, done) => {
 const passportAuth = passport.authenticate('jwt', { session: false });
 
 const app = express();
-const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
-
 
 // get todo list
 app.get('/todo', passportAuth, async (req, res, next) => {
@@ -140,7 +138,6 @@ app.post('/register', async (req, res, next) => {
 });
 
 app.use(express.static('../frontend/dist'));
-// app.listen(port, () => console.log(`ToDo app listening at http://localhost:${port}`));
 
 function closePool() {
     pool.end();
