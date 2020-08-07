@@ -84,9 +84,7 @@ it('Should get todo list', async () => {
     const token = await login(request);
     await addItem(request, token);
     const todo = await request.get('/todo').set('Authorization', `Bearer ${token.body.token}`);
-    //const rows = await query('select * from todo where title="tegevus" and state=0');
     expect(todo.body.length).not.toBe(0);
-    //expect(rows.length).not.toBe(0);
     expect(todo.body[0].title).toBe('tegevus');
     expect(todo.body[0].state).toBeFalsy();
 });
