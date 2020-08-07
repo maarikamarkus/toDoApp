@@ -89,5 +89,6 @@ export default {
 #addItem {
     font-family: "Montserrat", sans-serif;
     font-size: 20px;
+    width: 450px;
 }
 </style>

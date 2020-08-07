@@ -7,7 +7,6 @@ const { ExtractJwt } = require('passport-jwt');
 const jsonwebtoken = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { promisify } = require('util');
-require('dotenv').config();
 
 function signToken(id) {
     const payload = {
@@ -52,6 +51,8 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
+
+// get todo list
 app.get('/todo', passportAuth, async (req, res, next) => {
     try {
         const rows = await query('SELECT * from todo where userId = ?', req.user.id);
@@ -101,7 +102,7 @@ app.get('/todo/tere', (req, res) => {
     res.send('tere tere vanakere, oled jõudnud saladuste laekani');
 });
 
-// login endpoint
+// login
 app.post('/login', async (req, res, next) => {
     try {
         const rows = await query('SELECT id, username, password from users where username=?', req.body.username);
@@ -121,6 +122,7 @@ app.post('/login', async (req, res, next) => {
     }
 });
 
+// register
 app.post('/register', async (req, res, next) => {
     try {
         const rows = await query('SELECT * from users where username = ?', req.body.username);
@@ -138,5 +140,10 @@ app.post('/register', async (req, res, next) => {
 });
 
 app.use(express.static('../frontend/dist'));
+// app.listen(port, () => console.log(`ToDo app listening at http://localhost:${port}`));
 
-app.listen(port, () => console.log(`ToDo app listening at http://localhost:${port}`));
+function closePool() {
+    pool.end();
+}
+
+module.exports = { app: app, closePool: closePool };
