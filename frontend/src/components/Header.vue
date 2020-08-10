@@ -24,7 +24,7 @@ export default {
 <style>
 .date {
     display: grid;
-    grid-template-columns: 20px 70px auto 100px;
+    grid-template-columns: min-content 70px auto 100px;
     grid-template-rows: repeat(2, auto);
     column-gap: 11px;
     row-gap: 3px;
