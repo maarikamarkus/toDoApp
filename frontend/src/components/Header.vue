@@ -9,14 +9,29 @@
 <script>
 export default {
     data() {
-        const date = new Date(Date.now());
         return {
-            date: date.toDateString(),
-            dayOfWeek: date.toLocaleString('et-EE', { weekday: 'long' }),
-            dayOfMonth: date.getUTCDate(),
-            month: date.toLocaleString('et-EE', { month: 'short' }),
-            year: date.getFullYear(),
+            date: '',
+            dayOfWeek: '',
+            dayOfMonth: '',
+            month: '',
+            year: '',
         };
+    },
+
+    mounted() {
+        this.updateDate();
+    },
+
+    methods: {
+        updateDate() {
+            const date = new Date(Date.now());
+            this.date = date.toDateString();
+            this.dayOfWeek = date.toLocaleString('et-EE', { weekday: 'long' });
+            this.dayOfMonth = date.getUTCDate();
+            this.month = date.toLocaleString('et-EE', { month: 'short' });
+            this.year = date.getFullYear();
+            setTimeout(this.updateDate, 60000);
+        },
     },
 };
 </script>
