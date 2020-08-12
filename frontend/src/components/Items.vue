@@ -105,7 +105,7 @@ export default {
 .bubble {
     width: 15px;
     height: 15px;
-    border:1px solid #086972;
+    border: 1px solid #086972;
     border-radius: 100%;
 }
 
@@ -118,7 +118,7 @@ export default {
 
 .delete {
     font-size: 25px;
-    line-height: 15px;
+    line-height: 18px;
     margin-right: 11px;
     color: #086972;
 }
