@@ -1,7 +1,7 @@
 <template lang="pug">
   #app(v-if="token")
     #innerApp
-      Header
+      Header(:locale="locale")
       Items(:items="items" 
         @markDoneUndone="markDoneUndone"
         @deleteItem="deleteItem")

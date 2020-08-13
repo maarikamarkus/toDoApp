@@ -4,10 +4,9 @@
         #month {{month}}
         #year {{year}}
         #dayOfWeek {{dayOfWeek}}
-        #logout Logi välja
-        .lang#langChoiceET ET
-        .lang#separator | 
-        .lang#langChoiceEN EN
+        font-awesome-icon(icon="sign-out-alt")#icon
+        #langChoiceET ET 
+        #langChoiceEN EN
 </template>
 
 <script>
@@ -45,13 +44,14 @@ export default {
 <style>
 .date {
     display: grid;
-    grid-template-columns: min-content 60px 355px 35px 10px 25px;
+    grid-template-columns: min-content 60px 350px 25px 25px 25px;
     grid-template-rows: repeat(2, auto);
     column-gap: 11px;
     row-gap: 3px;
     text-transform: uppercase;
     font-family: 'Roboto', sans-serif;
     justify-content: stretch;
+    margin-bottom: 40px;
 }
 
 #dayOfMonth, #dayOfWeek {
@@ -85,9 +85,9 @@ export default {
     justify-self: center;
 }
 
-#logout {
-    font-size: 15px;
-    grid-column: 4 / span 3;
+#icon {
+    font-size: 20px;
+    grid-column: 6;
     grid-row: 1;
     place-self: end end;
 }
@@ -95,21 +95,14 @@ export default {
 #langChoiceET {
     font-size: 15px;
     grid-column: 4;
-    grid-row: 2;
-    justify-self: end;
+    grid-row: 1;
+    place-self: end end;
 }
 
 #langChoiceEN {
     font-size: 15px;
-    grid-column: 6;
-    grid-row: 2;
-    justify-self: center;
-}
-
-#separator {
-    font-size: 15px;
     grid-column: 5;
-    grid-row: 2;
-    justify-self: center;
+    grid-row: 1;
+    place-self: end start;
 }
 </style>

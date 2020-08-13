@@ -1,13 +1,16 @@
 import Vue from 'vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { faLock, faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import 
+{
+    faLock, faSignInAlt, faUserPlus, faSignOutAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueI18n from 'vue-i18n';
 import App from './App.vue';
 import i18n from './i18n';
 
-library.add(faUser, faLock, faSignInAlt, faUserPlus);
+library.add(faUser, faLock, faSignInAlt, faUserPlus, faSignOutAlt);
 Vue.use(VueI18n);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
