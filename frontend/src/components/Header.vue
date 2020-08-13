@@ -85,6 +85,14 @@ export default {
     justify-self: center;
 }
 
+#icon, #langChoiceET, #langChoiceEN {
+    transition: color 0.5s ease;
+}
+
+#icon:hover, #langChoiceET:hover, #langChoiceEN:hover {
+    color: #87dfd6;
+}
+
 #icon {
     font-size: 20px;
     grid-column: 6;
