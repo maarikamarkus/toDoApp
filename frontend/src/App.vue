@@ -1,7 +1,7 @@
 <template lang="pug">
   #app(v-if="token")
     #innerApp
-      Header(:locale="locale")
+      Header(:locale="locale" @logout="logout")
       Items(:items="items" 
         @markDoneUndone="markDoneUndone"
         @deleteItem="deleteItem")
@@ -28,7 +28,7 @@ export default {
     data() {
         return {
             items: [],
-            token: '',
+            token: null,
             axios: null,
             locale: 'et-EE',
         };
@@ -39,6 +39,12 @@ export default {
             this.setToken(token);
             window.localStorage.setItem('token', token);
             this.getList();
+        },
+        
+        logout() {
+            this.token = null;
+            this.axios = null;
+            window.localStorage.removeItem('token');
         },
 
         async getList() {

@@ -4,7 +4,7 @@
         #month {{month}}
         #year {{year}}
         #dayOfWeek {{dayOfWeek}}
-        font-awesome-icon(icon="sign-out-alt")#icon
+        font-awesome-icon(icon="sign-out-alt")#icon(v-on:click="logout()")
         #langChoiceET ET 
         #langChoiceEN EN
 </template>
@@ -36,6 +36,10 @@ export default {
             this.month = date.toLocaleString(this.locale, { month: 'short' });
             this.year = date.getFullYear();
             setTimeout(this.updateDate, 60000);
+        },
+
+        logout() {
+            this.$emit('logout');
         },
     },
 };
