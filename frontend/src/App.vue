@@ -30,6 +30,7 @@ export default {
             items: [],
             token: '',
             axios: null,
+            locale: 'et-EE',
         };
     },
 

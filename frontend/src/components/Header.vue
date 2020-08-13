@@ -8,6 +8,8 @@
 
 <script>
 export default {
+    props: ['locale'],
+
     data() {
         return {
             date: '',
@@ -15,6 +17,7 @@ export default {
             dayOfMonth: '',
             month: '',
             year: '',
+            locale: this.locale,
         };
     },
 
@@ -26,9 +29,9 @@ export default {
         updateDate() {
             const date = new Date(Date.now());
             this.date = date.toDateString();
-            this.dayOfWeek = date.toLocaleString('et-EE', { weekday: 'long' });
+            this.dayOfWeek = date.toLocaleString(this.locale, { weekday: 'long' });
             this.dayOfMonth = date.getUTCDate();
-            this.month = date.toLocaleString('et-EE', { month: 'short' });
+            this.month = date.toLocaleString(this.locale, { month: 'short' });
             this.year = date.getFullYear();
             setTimeout(this.updateDate, 60000);
         },

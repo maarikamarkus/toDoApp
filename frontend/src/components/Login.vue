@@ -44,6 +44,8 @@ function hasProperty(object, field) {
 }
 
 export default {
+    props: ['locale'],
+
     data() {
         return {
             username: '',
@@ -52,6 +54,7 @@ export default {
             error: '',
             emoji: '😭',
             register: false,
+            locale: this.locale,
         };
     },
 
