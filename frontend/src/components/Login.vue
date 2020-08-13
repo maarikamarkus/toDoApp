@@ -1,5 +1,7 @@
 <template lang="pug">
     .loginForm
+        .lang#langChoiceET ET 
+        .lang#langChoiceEN EN
         .username.formRow
             .icon
                 font-awesome-icon(:icon="['far', 'user']")
@@ -120,6 +122,13 @@ export default {
     margin-top: 100px;
     position: relative;
     color: #086972;
+}
+
+.lang {
+    display: block;
+    padding: 11px 0px 11px 11px;
+    float: right;
+    cursor: pointer;
 }
 
 .formRow .icon {
