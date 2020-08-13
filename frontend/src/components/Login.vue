@@ -31,7 +31,11 @@
                 .icon
                     font-awesome-icon(icon="sign-in-alt")                                    
                 | Logi sisse
-            .button(v-on:click="signUp()")
+            .left.button(v-on:click="goToLogin()" v-if="register") 
+                .icon
+                    font-awesome-icon(icon="arrow-left")                                    
+                | Tagasi
+            .right.button(v-on:click="signUp()")
                 .icon
                     font-awesome-icon(icon="user-plus")
                 | Registreeru
@@ -96,6 +100,10 @@ export default {
             }
 
             this.register = true;
+        },
+
+        goToLogin() {
+            this.register = false;
         },
     },
 };
@@ -169,7 +177,11 @@ export default {
 }
 
 .left {
-    margin-right: 14px;
+    margin-right: 13px;
+}
+
+.loginForm .loginOuter .right {
+    margin-right: 0px;
 }
 
 .button:hover, .formRow:hover {

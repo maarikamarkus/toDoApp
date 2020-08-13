@@ -111,6 +111,6 @@ export default {
     font-size: 15px;
     grid-column: 5;
     grid-row: 1;
-    place-self: end start;
+    place-self: end end;
 }
 </style>
