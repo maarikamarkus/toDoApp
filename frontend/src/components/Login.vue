@@ -129,6 +129,7 @@ export default {
     padding: 11px 0px 11px 11px;
     float: right;
     cursor: pointer;
+    font-weight: 400;
 }
 
 .formRow .icon {
