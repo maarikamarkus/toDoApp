@@ -54,7 +54,6 @@ export default {
             error: '',
             emoji: '😭',
             register: false,
-            locale: this.locale,
         };
     },
 

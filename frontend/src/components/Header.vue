@@ -4,6 +4,10 @@
         #month {{month}}
         #year {{year}}
         #dayOfWeek {{dayOfWeek}}
+        #logout Logi välja
+        .lang#langChoiceET ET
+        .lang#separator | 
+        .lang#langChoiceEN EN
 </template>
 
 <script>
@@ -17,7 +21,6 @@ export default {
             dayOfMonth: '',
             month: '',
             year: '',
-            locale: this.locale,
         };
     },
 
@@ -42,7 +45,7 @@ export default {
 <style>
 .date {
     display: grid;
-    grid-template-columns: min-content 70px auto 100px;
+    grid-template-columns: min-content 60px 355px 35px 10px 25px;
     grid-template-rows: repeat(2, auto);
     column-gap: 11px;
     row-gap: 3px;
@@ -77,8 +80,36 @@ export default {
 
 #dayOfWeek {
     font-size: 17px;
-    grid-column: 4;
+    grid-column: 3;
     grid-row: 1 / span 2;
+    justify-self: center;
+}
+
+#logout {
+    font-size: 15px;
+    grid-column: 4 / span 3;
+    grid-row: 1;
+    place-self: end end;
+}
+
+#langChoiceET {
+    font-size: 15px;
+    grid-column: 4;
+    grid-row: 2;
     justify-self: end;
+}
+
+#langChoiceEN {
+    font-size: 15px;
+    grid-column: 6;
+    grid-row: 2;
+    justify-self: center;
+}
+
+#separator {
+    font-size: 15px;
+    grid-column: 5;
+    grid-row: 2;
+    justify-self: center;
 }
 </style>
