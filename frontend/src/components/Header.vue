@@ -51,8 +51,8 @@ export default {
 <style>
 .date {
     display: grid;
-    grid-template-columns: min-content 60px 330px 30px 30px 25px;
-    grid-template-rows: repeat(2, auto);
+    grid-template-columns: min-content 60px 335px 30px 30px 25px;
+    grid-template-rows: repeat(2, 17px);
     column-gap: 11px;
     row-gap: 3px;
     text-transform: uppercase;
@@ -68,7 +68,7 @@ export default {
 #dayOfMonth {
     grid-column: 1;
     grid-row: 1 / span 2;
-    font-size: 50px;
+    font-size: 43px;
 }
 
 #month {
