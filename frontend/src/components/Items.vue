@@ -118,7 +118,7 @@ export default {
 
 .delete {
     font-size: 25px;
-    line-height: 18px;
+    line-height: 15px;
     margin-right: 11px;
     margin-left: 5px;
     color: #086972;
