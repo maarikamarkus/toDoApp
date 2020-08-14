@@ -1,32 +1,21 @@
 <template lang="pug">
     .lang
         #langChoiceET(v-on:click="chooseLang('et')" 
-                    :class="'choice ' + (lang === 'et' ? 'chosen' : '')") ET
+                    :class="'choice ' + langClass('et')") ET
         #langChoiceEN(v-on:click="chooseLang('en')" 
-                    :class="'choice ' + (lang === 'en' ? 'chosen' : '')") EN    
+                    :class="'choice ' + langClass('en')") EN    
 </template>
 <script>
 export default {
-    data() {
-        return {
-            lang: 'et',
-            locale: 'et-EE',
-        };
-    },
-
     methods: {
         chooseLang(lang) {
-            if (lang === 'et') {
-                this.$root.$i18n.locale = 'et';
-                this.lang = 'et';
-            } else if (lang === 'en') {
-                this.$root.$i18n.locale = 'en';
-                this.lang = 'en';
-            } else {
-                this.$root.$i18n.locale = 'et';
-                this.lang = 'et';
-            }
+            this.$root.$i18n.locale = lang;
+            window.localStorage.setItem('lang', lang);
             this.$emit('chooseLang');
+        },
+
+        langClass(lang) {
+            return this.$root.$i18n.locale === lang ? 'chosen' : '';
         },
     },
 };

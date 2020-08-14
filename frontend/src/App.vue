@@ -96,6 +96,10 @@ export default {
             this.setToken(token);
             this.getList();
         }
+        const lang = localStorage.getItem('lang');
+        if (lang !== null) {
+            this.$root.$i18n.locale = lang;
+        }
     },
 };
 </script>
