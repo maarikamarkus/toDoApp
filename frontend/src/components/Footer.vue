@@ -86,6 +86,10 @@ export default {
     box-shadow: 0px 0px 10px 2px #086972;
 }
 
+.footer input {
+    color: #086972;
+}
+
 #addItem {
     font-family: "Montserrat", sans-serif;
     font-size: 20px;

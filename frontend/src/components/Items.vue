@@ -61,7 +61,7 @@ export default {
 }
 
 .items ul li {
-    color: black;
+    color: #086972;
     list-style: none;
     display: flex;
     flex: 1 1 auto;
@@ -120,6 +120,7 @@ export default {
     font-size: 25px;
     line-height: 18px;
     margin-right: 11px;
+    margin-left: 5px;
     color: #086972;
 }
 

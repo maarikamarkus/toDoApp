@@ -1,18 +1,17 @@
 <template lang="pug">
     .loginForm
-        .lang#langChoiceET ET 
-        .lang#langChoiceEN EN
+        Language.lang
         .username.formRow
             .icon
                 font-awesome-icon(:icon="['far', 'user']")
-            input(v-model="username" type="text" placeholder="Sisesta kasutajanimi" required)
+            input(v-model="username" type="text" :placeholder="$t('enterUsername')" required)
         .password.formRow
             .icon
                 font-awesome-icon(icon="lock")
             input(
                 v-model="password" 
                 type="password" 
-                placeholder="Sisesta parool" 
+                :placeholder="$t('enterPassword')" 
                 required
                 @keypress.enter="register ? null : login()")
         .confirmPassword.formRow(v-if="register")
@@ -21,7 +20,7 @@
             input(
                 v-model="confirmPassword" 
                 type="password" 
-                placeholder="Kinnita parool" 
+                :placeholder="$t('confirmPassword')" 
                 required
                 @keypress.enter="signUp()")
         transition(name="warning")
@@ -32,25 +31,28 @@
             .left.button(v-on:click="login()" v-if="!register") 
                 .icon
                     font-awesome-icon(icon="sign-in-alt")                                    
-                | Logi sisse
+                | {{$t('login')}}
             .left.button(v-on:click="goToLogin()" v-if="register") 
                 .icon
                     font-awesome-icon(icon="arrow-left")                                    
-                | Tagasi
+                | {{$t('goBack')}}
             .right.button(v-on:click="signUp()")
                 .icon
                     font-awesome-icon(icon="user-plus")
-                | Registreeru
+                | {{$t('register')}}
 </template>
 <script>
 import axios from 'axios';
+import Language from './Language.vue';
 
 function hasProperty(object, field) {
     return Object.prototype.hasOwnProperty.call(object, field);
 }
 
 export default {
-    props: ['locale'],
+    components: {
+        Language,
+    },
 
     data() {
         return {
@@ -116,19 +118,17 @@ export default {
 }
 
 .loginForm {
-    width: 314px;
+    width: 350px;
     left: 50%;
-    margin-left: -150px;
+    margin-left: -175px;
     margin-top: 100px;
     position: relative;
     color: #086972;
 }
 
-.lang {
-    display: block;
-    padding: 11px 0px 11px 11px;
+.loginForm .lang {
+    padding: 11px 0px 11px 0px;
     float: right;
-    cursor: pointer;
     font-weight: 400;
 }
 
@@ -171,14 +171,15 @@ export default {
 }
 
 .loginOuter {
+    display: inline-block;
     text-align: center;
     margin-top: 7px;
+    width: 100%;
 }
 
 .button {
     cursor: pointer;
     color: white;
-    display: inline-block;
     padding: 11px 17px 11px 17px;
     border: 1px solid #086972;
     border-radius: 3px;
@@ -186,12 +187,13 @@ export default {
     transition: all 0.5s ease;
 }
 
-.left {
-    margin-right: 13px;
+.left, .right {
+    display: inline-block;
+    width: 135px;
 }
 
-.loginForm .loginOuter .right {
-    margin-right: 0px;
+.left {
+    margin-right: 7px;
 }
 
 .button:hover, .formRow:hover {

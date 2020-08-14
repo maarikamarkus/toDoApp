@@ -5,13 +5,16 @@
         #year {{year}}
         #dayOfWeek {{dayOfWeek}}
         font-awesome-icon(icon="sign-out-alt")#icon(v-on:click="logout()")
-        #langChoiceET ET 
-        #langChoiceEN EN
+        Language.lang(@chooseLang="updateDate")
 </template>
 
 <script>
+import Language from './Language.vue';
+
 export default {
-    props: ['locale'],
+    components: {
+        Language,
+    },
 
     data() {
         return {
@@ -31,9 +34,9 @@ export default {
         updateDate() {
             const date = new Date(Date.now());
             this.date = date.toDateString();
-            this.dayOfWeek = date.toLocaleString(this.locale, { weekday: 'long' });
+            this.dayOfWeek = date.toLocaleString(this.$root.$i18n.locale, { weekday: 'long' });
             this.dayOfMonth = date.getUTCDate();
-            this.month = date.toLocaleString(this.locale, { month: 'short' });
+            this.month = date.toLocaleString(this.$root.$i18n.locale, { month: 'short' });
             this.year = date.getFullYear();
             setTimeout(this.updateDate, 60000);
         },
@@ -48,7 +51,7 @@ export default {
 <style>
 .date {
     display: grid;
-    grid-template-columns: min-content 60px 350px 25px 25px 25px;
+    grid-template-columns: min-content 60px 330px 30px 30px 25px;
     grid-template-rows: repeat(2, auto);
     column-gap: 11px;
     row-gap: 3px;
@@ -65,7 +68,7 @@ export default {
 #dayOfMonth {
     grid-column: 1;
     grid-row: 1 / span 2;
-    font-size: 41px;
+    font-size: 50px;
 }
 
 #month {
@@ -89,11 +92,12 @@ export default {
     justify-self: center;
 }
 
-#icon, #langChoiceET, #langChoiceEN {
+#icon {
     transition: color 0.5s ease;
+    cursor: pointer;
 }
 
-#icon:hover, #langChoiceET:hover, #langChoiceEN:hover {
+#icon:hover {
     color: #87dfd6;
 }
 
@@ -104,17 +108,10 @@ export default {
     place-self: end end;
 }
 
-#langChoiceET {
-    font-size: 15px;
-    grid-column: 4;
+.date .lang {
+    grid-column: 4 / span 2;
     grid-row: 1;
     place-self: end end;
-}
-
-#langChoiceEN {
-    font-size: 15px;
-    grid-column: 5;
-    grid-row: 1;
-    place-self: end end;
+    padding: 0 0 0 0;
 }
 </style>

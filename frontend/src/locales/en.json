@@ -1,3 +1,9 @@
 {
-  "message": "hello i18n !!"
+  "message": "hello i18n !!",
+  "enterUsername": "Enter username",
+  "enterPassword": "Enter password",
+  "confirmPassword": "Confirm password",
+  "login": "Log in",
+  "goBack": "Back",
+  "register": "Register"
 }

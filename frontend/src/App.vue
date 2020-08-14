@@ -1,7 +1,7 @@
 <template lang="pug">
   #app(v-if="token")
     #innerApp
-      Header(:locale="locale" @logout="logout")
+      Header(@logout="logout")
       Items(:items="items" 
         @markDoneUndone="markDoneUndone"
         @deleteItem="deleteItem")
@@ -15,6 +15,7 @@ import Header from './components/Header.vue';
 import Items from './components/Items.vue';
 import Footer from './components/Footer.vue';
 import Login from './components/Login.vue';
+import Language from './components/Language.vue';
 
 export default {
     name: 'App',
@@ -23,6 +24,7 @@ export default {
         Items,
         Footer,
         Login,
+        Language,
     },
 
     data() {
@@ -30,7 +32,6 @@ export default {
             items: [],
             token: null,
             axios: null,
-            locale: 'et-EE',
         };
     },
 
@@ -107,6 +108,7 @@ export default {
   margin-left: -300px;
   position: relative;
   color: #086972;
+  font-weight: 200;
 }
 
 #innerApp {
