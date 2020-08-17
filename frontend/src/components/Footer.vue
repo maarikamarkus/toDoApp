@@ -7,6 +7,7 @@
             id="addItem"
             :class="fieldClasses"
             @keypress.enter="addItem()"
+            @focusout="hideAddItem()"
             ref="inputField")
 </template>
 
@@ -25,6 +26,10 @@ export default {
         showAddItem() {
             this.state = 'edit';
             this.$nextTick(() => this.$refs.inputField.focus());
+        },
+
+        hideAddItem() {
+            this.state = 'list';
         },
 
         async addItem() {
