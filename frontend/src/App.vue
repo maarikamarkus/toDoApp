@@ -4,7 +4,8 @@
       Header(@logout="logout")
       Items(:items="items" 
         @markDoneUndone="markDoneUndone"
-        @deleteItem="deleteItem")
+        @deleteItem="deleteItem"
+        @updateTitle="updateTitle")
       Footer(:items="items" @addItem="addItem")
   Login(v-else @login="login")
 </template>
@@ -87,6 +88,11 @@ export default {
             );
             newItem.id = parseInt(res.data, 10); // eslint-disable-line no-param-reassign
             this.items.push(newItem);
+        },
+
+        updateTitle(params) {
+            const item = this.items.find((x) => x.id === params.id);
+            item.title = params.title;
         },
     },
 

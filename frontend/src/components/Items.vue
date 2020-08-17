@@ -3,11 +3,11 @@
         ul(v-for="item in sortedItems" :key="item.id")
             .listRow
                 .buttonBox
-                    font-awesome-icon(icon="trash-alt").icon(v-on:click="deleteItem(item.id)")
-                    font-awesome-icon(icon="pencil-alt").icon(v-on:click="editTitle(item.id)")
+                    font-awesome-icon(icon="trash-alt" v-on:click="deleteItem(item.id)").icon
+                    font-awesome-icon(icon="pencil-alt" v-on:click="editTitle(item.id)").icon
                 li(:class="item.state ? 'checked' : ''"
                     v-on:click="markDoneUndone(item.id)")
-                    popper(class="popperOuter" trigger="hover" 
+                    popper(v-if="editID !== item.id" class="popperOuter" trigger="hover" 
                             :delay-on-mouse-over="600"
                             :options="popperOptions")
                         .popper {{item.title}}
@@ -15,6 +15,7 @@
                             | {{item.title}}
                             transition(name="lineThrough")
                                 span.lineThrough(v-if="item.state")
+                    input(v-else v-model="newTitle" @keypress.enter="updateTitle()")
                 .buttonBox
                     div(:class="'bubble checkBubble ' + (item.state ? 'checked' : '')"
                         v-on:click="markDoneUndone(item.id)")
@@ -43,16 +44,35 @@ export default {
     data() {
         return {
             popperOptions,
+            editID: null,
+            newTitle: null,
         };
     },
 
     methods: {
         markDoneUndone(id) {
-            this.$emit('markDoneUndone', id);
+            if (this.editID === null) {
+                this.$emit('markDoneUndone', id);
+            }
         },
 
         deleteItem(id) {
             this.$emit('deleteItem', id);
+        },
+
+        editTitle(id) {
+            this.editID = id;
+            const item = this.items.find((x) => x.id === id);
+            this.newTitle = item.title;
+        },
+
+        updateTitle() {
+            this.$emit('updateTitle', {
+                title: this.newTitle,
+                id: this.editID,
+            });
+            this.editID = null;
+            this.newTitle = null;
         },
     },
 
@@ -77,6 +97,16 @@ export default {
     align-items: stretch;
     width: 100%;
     height: 31px;
+}
+
+.listRow input {
+    width: 100%;
+    color: var(--main-color);
+    font-size: 23px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    border: 1px solid var(--main-color);
+    border-radius: 3px;
 }
 
 .items {
@@ -109,8 +139,12 @@ export default {
     font-weight: 200;
 }
 
-.items ul li .icon {
-    height: 0;
+.items ul .buttonBox .icon {
+    transition: color 0.5s ease;
+}
+
+.items ul .buttonBox .icon:hover {
+    color: var(--accent-color);
 }
 
 .items ul li .title {
