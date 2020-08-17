@@ -6,18 +6,44 @@
                     .bubble.delete(v-on:click="deleteItem(item.id)") ×
                 li(:class="item.state ? 'checked' : ''"
                     v-on:click="markDoneUndone(item.id)")
-                    span.title(:title="item.title") 
-                        | {{item.title}}
-                        transition(name="lineThrough")
-                            span.lineThrough(v-if="item.state")
+                    popper(class="popperOuter" trigger="hover" 
+                            :delay-on-mouse-over="600"
+                            :options="popperOptions")
+                        .popper {{item.title}}
+                        span.title(slot="reference")
+                            | {{item.title}}
+                            transition(name="lineThrough")
+                                span.lineThrough(v-if="item.state")
                 .bubbleOuter
                     div(:class="'bubble checkBubble ' + (item.state ? 'checked' : '')"
                         v-on:click="markDoneUndone(item.id)")
 </template>
 
 <script>
+import Popper from 'vue-popperjs';
+import 'vue-popperjs/dist/vue-popper.css';
+
+const popperOptions = { 
+    placement: 'top', 
+    modifiers: {
+        computeStyle: {
+            gpuAcceleration: false,
+        },
+    },
+};
+
 export default {
     props: ['items'],
+
+    components: {
+        popper: Popper,
+    },
+
+    data() {
+        return {
+            popperOptions,
+        };
+    },
 
     methods: {
         markDoneUndone(id) {
@@ -70,7 +96,19 @@ export default {
     min-width: 0;
 }
 
-.title {
+.items ul li .popperOuter {
+    display: flex;
+    width: 100%;
+}
+
+.items ul li .popperOuter .popper {
+    color: var(--main-color);
+    font-size: 23px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+}
+
+.items ul li .title {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
