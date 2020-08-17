@@ -90,9 +90,13 @@ export default {
             this.items.push(newItem);
         },
 
-        updateTitle(params) {
+        async updateTitle(params) {
             const item = this.items.find((x) => x.id === params.id);
             item.title = params.title;
+            await this.axios.put(
+                `${process.env.VUE_APP_BACKEND_URL}/todo/update/${params.id}`,
+                item,
+            );
         },
     },
 
