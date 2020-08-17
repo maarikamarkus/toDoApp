@@ -123,7 +123,7 @@ export default {
     margin-left: -175px;
     margin-top: 100px;
     position: relative;
-    color: #086972;
+    color: var(--main-color);
 }
 
 .loginForm .lang {
@@ -148,7 +148,7 @@ export default {
     height: 40px;
     line-height: 40px;
     margin-bottom: 15px;
-    border: 1px solid #086972;
+    border: 1px solid var(--main-color);
     border-radius: 3px;
     transition: border 0.5s ease;
 }
@@ -157,7 +157,7 @@ export default {
     padding: 0 0 0 5px;
     flex: 1 1 auto;
     font-size: 20px;
-    color: rgb(150, 150, 150);
+    color: var(--sec-text-color);
     height: 100%;
     border: none;
 }
@@ -167,7 +167,7 @@ export default {
 }
 
 ::placeholder {
-    color: rgb(150, 150, 150);
+    color: var(--sec-text-color);
 }
 
 .loginOuter {
@@ -181,7 +181,7 @@ export default {
     cursor: pointer;
     color: white;
     padding: 11px 17px 11px 17px;
-    border: 1px solid #086972;
+    border: 1px solid var(--accent-color);
     border-radius: 3px;
     background-color: #01a9b4;
     transition: all 0.5s ease;
@@ -197,13 +197,13 @@ export default {
 }
 
 .button:hover, .formRow:hover {
-    border: 1px solid #87dfd6;
+    border: 1px solid var(--accent-color);
     border-radius: 3px;
 }
 
 .button:hover {
-    background-color: #87dfd6;
-    color: #086972;
+    background-color: var(--accent-color);
+    color: var(--main-color);
 }
 
 .icon {

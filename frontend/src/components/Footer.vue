@@ -83,11 +83,11 @@ export default {
 }
 
 .footer #button:hover {
-    box-shadow: 0px 0px 10px 2px #086972;
+    box-shadow: 0px 0px 10px 2px var(--main-color);
 }
 
 .footer input {
-    color: #086972;
+    color: var(--main-color);
 }
 
 #addItem {

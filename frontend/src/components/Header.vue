@@ -35,7 +35,7 @@ export default {
             const date = new Date(Date.now());
             this.date = date.toDateString();
             this.dayOfWeek = date.toLocaleString(this.$root.$i18n.locale, { weekday: 'long' });
-            this.dayOfMonth = date.getUTCDate();
+            this.dayOfMonth = date.getDate();
             this.month = date.toLocaleString(this.$root.$i18n.locale, { month: 'short' });
             this.year = date.getFullYear();
             setTimeout(this.updateDate, 60000);
@@ -98,7 +98,7 @@ export default {
 }
 
 #icon:hover {
-    color: #87dfd6;
+    color: var(--accent-color);
 }
 
 #icon {

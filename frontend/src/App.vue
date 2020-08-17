@@ -111,7 +111,7 @@ export default {
   left: 50%;
   margin-left: -300px;
   position: relative;
-  color: #086972;
+  color: var(--main-color);
   font-weight: 200;
 }
 
@@ -125,5 +125,11 @@ export default {
     left: 0;
     margin-left: 0;
   }
+}
+
+:root {
+    --main-color: #086972;
+    --sec-text-color: rgb(150, 150, 150);
+    --accent-color: #87dfd6;
 }
 </style>

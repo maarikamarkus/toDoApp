@@ -33,7 +33,7 @@ export default {
 }
 
 .choice:hover {
-    color: #87dfd6;
+    color: var(--accent-color);
 }
 
 #langChoiceET {
@@ -41,6 +41,6 @@ export default {
 }
 
 .choice.chosen {
-    border-bottom: 1px solid #086972;
+    border-bottom: 1px solid var(--main-color);
 }
 </style>

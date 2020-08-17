@@ -6,7 +6,7 @@
                     .bubble.delete(v-on:click="deleteItem(item.id)") ×
                 li(:class="item.state ? 'checked' : ''"
                     v-on:click="markDoneUndone(item.id)")
-                    span.title 
+                    span.title(:title="item.title") 
                         | {{item.title}}
                         transition(name="lineThrough")
                             span.lineThrough(v-if="item.state")
@@ -61,7 +61,7 @@ export default {
 }
 
 .items ul li {
-    color: #086972;
+    color: var(--main-color);
     list-style: none;
     display: flex;
     flex: 1 1 auto;
@@ -75,14 +75,19 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
     position: relative;
+    transition: color 0.3s ease;
+}
+
+.title:hover {
+    color: var(--sec-text-color);
 }
 
 .items .checked {
-    color: rgb(150, 150, 150);
+    color: var(--sec-text-color);
 }
 
 .items li .lineThrough {
-    background-color: rgb(150, 150, 150);
+    background-color: var(--sec-text-color);
     bottom: 0;
     display: block;
     height: 1px;
@@ -105,7 +110,7 @@ export default {
 .bubble {
     width: 15px;
     height: 15px;
-    border: 1px solid #086972;
+    border: 1px solid var(--main-color);
     border-radius: 100%;
 }
 
@@ -121,7 +126,7 @@ export default {
     line-height: 15px;
     margin-right: 11px;
     margin-left: 5px;
-    color: #086972;
+    color: var(--main-color);
 }
 
 .checkBubble {
@@ -133,12 +138,12 @@ export default {
 }
 
 .checkBubble:hover, .delete:hover {
-    box-shadow: 0px 0px 10px 2px #086972;
+    box-shadow: 0px 0px 10px 2px var(--main-color);
 }
 
 .items .checkBubble.checked{
-    background-color: #87dfd6;
-    border-color: #87dfd6;
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
 </style>
