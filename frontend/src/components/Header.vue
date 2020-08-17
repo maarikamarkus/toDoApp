@@ -51,7 +51,8 @@ export default {
 <style>
 .date {
     display: grid;
-    grid-template-columns: min-content 60px 335px 30px 30px 25px;
+    /*grid-template-columns: min-content 60px 335px 30px 30px 25px;*/
+    grid-template-columns: min-content min-content auto min-content min-content min-content;
     grid-template-rows: repeat(2, 17px);
     column-gap: 11px;
     row-gap: 3px;

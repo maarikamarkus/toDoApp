@@ -2,8 +2,9 @@
     .items
         ul(v-for="item in sortedItems" :key="item.id")
             .listRow
-                .bubbleOuter
-                    .bubble.delete(v-on:click="deleteItem(item.id)") ×
+                .buttonBox
+                    font-awesome-icon(icon="trash-alt").icon(v-on:click="deleteItem(item.id)")
+                    font-awesome-icon(icon="pencil-alt").icon(v-on:click="editTitle(item.id)")
                 li(:class="item.state ? 'checked' : ''"
                     v-on:click="markDoneUndone(item.id)")
                     popper(class="popperOuter" trigger="hover" 
@@ -14,7 +15,7 @@
                             | {{item.title}}
                             transition(name="lineThrough")
                                 span.lineThrough(v-if="item.state")
-                .bubbleOuter
+                .buttonBox
                     div(:class="'bubble checkBubble ' + (item.state ? 'checked' : '')"
                         v-on:click="markDoneUndone(item.id)")
 </template>
@@ -108,6 +109,10 @@ export default {
     font-weight: 200;
 }
 
+.items ul li .icon {
+    height: 0;
+}
+
 .items ul li .title {
     overflow: hidden;
     white-space: nowrap;
@@ -152,7 +157,7 @@ export default {
     border-radius: 100%;
 }
 
-.bubbleOuter {
+.buttonBox {
     display: flex;
     flex: 0 0 15px;
     height: 100%;
