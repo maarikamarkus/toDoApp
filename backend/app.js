@@ -100,6 +100,16 @@ app.get('/todo/tere', (req, res) => {
     res.send('tere tere vanakere, oled jõudnud saladuste laekani');
 });
 
+// update item title in todo list
+app.put('/todo/update/:id', passportAuth, async (req, res, next) => {
+    try {
+        await query('update todo set title = ? where id = ? and userId = ?', [req.body.title, req.params.id, req.user.id]);
+        res.send('sometimes win');
+    } catch (error) {
+        next(error);
+    }
+});
+
 // login
 app.post('/login', async (req, res, next) => {
     try {

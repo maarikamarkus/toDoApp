@@ -4,6 +4,7 @@ const supertest = require('supertest');
 const request = supertest(app.app);
 const mysql = require('mysql');
 const { promisify } = require('util');
+const { exception } = require('console');
 
 const pool = mysql.createPool({
     connectionLimit: process.env.DB_CONNECTION_LIMIT,
@@ -32,13 +33,27 @@ async function login(request) {
 }
 
 async function addItem(request, token) {
-    return request.post('/todo')
+    const res = await request.post('/todo')
                 .set('Authorization', `Bearer ${token.body.token}`)
                 .send({
                     title: 'tegevus',
                     state: false
                 });
+    return res.text;
 }
+
+function getToDoList(request, token) {
+    return request.get('/todo').set('Authorization', `Bearer ${token.body.token}`);
+};
+
+async function getToDoItem(id) {
+    const rows = await query('select * from todo where id=?', id);
+    if (rows.length === 1) {
+        return rows[0];
+    } else {
+        throw new Error(`Could not find item with id ${id} from database`);
+    }
+};
 
 it('gets the tere endpoint', async () => {
     const res = await request.get('/todo/tere');
@@ -60,33 +75,47 @@ it('Should login user', async () => {
 
 it('Should add item to todo list', async () => {
     const token = await login(request);
-    const res = await addItem(request, token);
-    const rows = await query('select * from todo where title="tegevus"');
-    expect(rows.length).not.toBe(0);
-    expect(res.body).toBeTruthy();
+    const id = await addItem(request, token);
+    const item = await getToDoItem(id);
+    expect(item.title).toBe('tegevus');
 });
 
 it('Should delete item from todo list', async () => {
     const token = await login(request);
-    const res = await addItem(request, token);
-    const wat = await request.delete(`/todo/${res.body}`).set('Authorization', `Bearer ${token.body.token}`);
+    const id = await addItem(request, token);
+    const wat = await request.delete(`/todo/${id}`).set('Authorization', `Bearer ${token.body.token}`);
     expect(wat.text).toBe('wat');
 });
 
 it('Should update state of item in todo list', async () => {
     const token = await login(request);
-    const res = await addItem(request, token);
-    const scared = await request.put(`/todo/${res.body}`).set('Authorization', `Bearer ${token.body.token}`);
+    const id = await addItem(request, token);
+    const scared = await request.put(`/todo/${id}`).set('Authorization', `Bearer ${token.body.token}`);
+    const item = await getToDoItem(id);
     expect(scared.text).toBe('aim scared');
+    expect(item.state).toBe(1);
 });
 
 it('Should get todo list', async () => {
     const token = await login(request);
     await addItem(request, token);
-    const todo = await request.get('/todo').set('Authorization', `Bearer ${token.body.token}`);
+    const todo = await getToDoList(request, token);
     expect(todo.body.length).not.toBe(0);
     expect(todo.body[0].title).toBe('tegevus');
     expect(todo.body[0].state).toBeFalsy();
+});
+
+it('Should update item title in todo list', async () => {
+    const token = await login(request);
+    const id = await addItem(request, token);
+    const sometimes = await request.put(`/todo/update/${id}`)
+                            .set('Authorization', `Bearer ${token.body.token}`)
+                            .send({
+                                title: 'tegevus!',
+                            });
+    const item = await getToDoItem(id);
+    expect(sometimes.text).toBe('sometimes win');
+    expect(item.title).toBe('tegevus!');
 });
 
 afterEach(async () => {
