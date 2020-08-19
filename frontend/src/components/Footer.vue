@@ -79,6 +79,7 @@ export default {
     cursor: pointer;
     width: 50px;
     height: 50px;
+    line-height: 50px;
     font-size: 37px;
     border: none;
     border-radius: 100%;
