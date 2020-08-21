@@ -2,9 +2,18 @@
     .items
         ul(v-for="item in sortedItems" :key="item.id")
             .listRow
-                .buttonBox
-                    font-awesome-icon(icon="trash-alt" v-on:click="deleteItem(item.id)").icon
-                    font-awesome-icon(icon="pencil-alt" v-on:click="editTitle(item.id)").icon
+                popper(class="popperOuter" trigger="hover"
+                        :delay-on-mouse-over="600"
+                        :options="popperOptions").buttonBox
+                    .popper {{$t('delete')}}
+                    font-awesome-icon(icon="trash-alt" v-on:click="deleteItem(item.id)" 
+                                        slot="reference").icon
+                popper(class="popperOuter" trigger="hover"
+                        :delay-on-mouse-over="600"
+                        :options="popperOptions").buttonBox
+                    .popper {{$t('edit')}}
+                    font-awesome-icon(icon="pencil-alt" v-on:click="editTitle(item.id)"
+                                        slot="reference").icon
                 li(:class="item.state ? 'checked' : ''"
                     v-on:click="markDoneUndone(item.id)")
                     popper(v-if="editID !== item.id" class="popperOuter" trigger="hover" 
@@ -133,10 +142,13 @@ export default {
 }
 
 .items ul li .popperOuter .popper {
-    color: var(--main-color);
     font-size: 23px;
-    font-family: 'Montserrat', sans-serif;
     font-weight: 200;
+}
+
+.items ul .popperOuter .popper {
+    color: var(--main-color);
+    font-family: 'Montserrat', sans-serif;
 }
 
 .items ul .buttonBox .icon {
