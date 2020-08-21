@@ -4,16 +4,32 @@
         #month {{month}}
         #year {{year}}
         #dayOfWeek {{dayOfWeek}}
-        font-awesome-icon(icon="sign-out-alt")#icon(v-on:click="logout()")
+        popper(class="popperOuter" trigger="hover" 
+                :delay-on-mouse-over="600"
+                :options="popperOptions")
+            .popper {{$t('logout')}}
+            font-awesome-icon(icon="sign-out-alt")#icon(v-on:click="logout()" slot="reference")
         Language.lang(@chooseLang="updateDate")
 </template>
 
 <script>
+import Popper from 'vue-popperjs';
+import 'vue-popperjs/dist/vue-popper.css';
 import Language from './Language.vue';
+
+const popperOptions = { 
+    placement: 'right', 
+    modifiers: {
+        computeStyle: {
+            gpuAcceleration: false,
+        },
+    },
+};
 
 export default {
     components: {
         Language,
+        popper: Popper,
     },
 
     data() {
@@ -23,6 +39,7 @@ export default {
             dayOfMonth: '',
             month: '',
             year: '',
+            popperOptions,
         };
     },
 
@@ -114,5 +131,14 @@ export default {
     grid-row: 1;
     place-self: end end;
     padding: 0 0 0 0;
+}
+
+.date .popperOuter .popper {
+    color: var(--main-color);
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    width: max-content;
+    padding: 5px;
 }
 </style>

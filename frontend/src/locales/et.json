@@ -4,6 +4,7 @@
   "enterPassword": "Sisesta parool",
   "confirmPassword": "Kinnita parool",
   "login": "Logi sisse",
+  "logout": "Logi välja",
   "goBack": "Tagasi",
   "register": "Registreeru"
 }

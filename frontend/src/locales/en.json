@@ -4,6 +4,7 @@
   "enterPassword": "Enter password",
   "confirmPassword": "Confirm password",
   "login": "Log in",
+  "logout": "Log out",
   "goBack": "Back",
   "register": "Register"
 }
