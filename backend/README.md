@@ -1,4 +1,4 @@
-# env example
+# .env example
 
 DB_CONNECTION_LIMIT=10\
 DB_HOST=\
