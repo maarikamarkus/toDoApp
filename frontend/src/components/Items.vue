@@ -24,7 +24,11 @@
                             | {{item.title}}
                             transition(name="lineThrough")
                                 span.lineThrough(v-if="item.state")
-                    input(v-else v-model="newTitle" @keypress.enter="updateTitle()")
+                    input(v-else v-model="newTitle"
+                            type="text"
+                            @keypress.enter="updateTitle()"
+                            @focusout="hideUpdateTitle()"
+                            ref="inputField")
                 .buttonBox
                     div(:class="'bubble checkBubble ' + (item.state ? 'checked' : '')"
                         v-on:click="markDoneUndone(item.id)")
@@ -73,6 +77,9 @@ export default {
             this.editID = id;
             const item = this.items.find((x) => x.id === id);
             this.newTitle = item.title;
+            this.$nextTick(() => {
+                this.$refs.inputField[0].focus();
+            });
         },
 
         updateTitle() {
@@ -80,6 +87,11 @@ export default {
                 title: this.newTitle,
                 id: this.editID,
             });
+            this.editID = null;
+            this.newTitle = null;
+        },
+
+        hideUpdateTitle() {
             this.editID = null;
             this.newTitle = null;
         },
