@@ -8,7 +8,7 @@
                 :delay-on-mouse-over="600"
                 :options="popperOptions")
             .popper {{$t('logout')}}
-            font-awesome-icon(icon="sign-out-alt")#icon(v-on:click="logout()" slot="reference")
+            font-awesome-icon(icon="sign-out-alt" v-on:click="logout()" slot="reference")#icon
         Language.lang(@chooseLang="updateDate")
 </template>
 
