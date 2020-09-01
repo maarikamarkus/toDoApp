@@ -110,7 +110,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .listRow {
     cursor: pointer;
     padding-bottom: 5px;

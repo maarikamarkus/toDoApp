@@ -142,7 +142,6 @@ export default {
 
 .formRow {
     display: flex;
-    flex-wrap: wrap;
     align-items: stretch;
     width: 100%;
     height: 40px;
@@ -171,13 +170,15 @@ export default {
 }
 
 .loginOuter {
-    display: inline-block;
-    text-align: center;
+    display: flex;
     margin-top: 7px;
     width: 100%;
 }
 
 .button {
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
     cursor: pointer;
     color: white;
     padding: 11px 17px 11px 17px;
@@ -185,15 +186,6 @@ export default {
     border-radius: 3px;
     background-color: #01a9b4;
     transition: all 0.5s ease;
-}
-
-.left, .right {
-    display: inline-block;
-    width: 135px;
-}
-
-.left {
-    margin-right: 7px;
 }
 
 .button:hover, .formRow:hover {
