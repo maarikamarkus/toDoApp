@@ -54,6 +54,7 @@ export default {
                 `${process.env.VUE_APP_BACKEND_URL}/todo`,
             );
             this.items = res.data;
+            setTimeout(this.getList, 1000);
         },
 
         setToken(token) {
