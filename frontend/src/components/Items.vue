@@ -157,6 +157,10 @@ export default {
                         position: relative;
                         transition: color 0.3s ease;
 
+                        &:hover {
+                            color: var(--sec-text-color);
+                        }
+
                         .lineThrough {
                             background-color: var(--sec-text-color);
                             bottom: 0;
@@ -177,10 +181,6 @@ export default {
                         .lineThrough-leave-to {
                             width: 0;
                         }
-                    }
-
-                    .title:hover {
-                        color: var(--sec-text-color);
                     }
                 }
 
@@ -208,7 +208,7 @@ export default {
                     border-radius: 100%;
                 }
 
-                .checked{
+                .checked {
                     background-color: var(--accent-color);
                     border-color: var(--accent-color);
                 }
@@ -216,10 +216,10 @@ export default {
                 .checkBubble {
                     margin-left: 11px;
                     transition: all 0.75s ease;
-                }
 
-                .checkBubble:hover {
-                    box-shadow: 0px 0px 10px 2px var(--main-color);
+                    &:hover {
+                        box-shadow: 0px 0px 10px 2px var(--main-color);
+                    }
                 }
             }
 
@@ -229,10 +229,10 @@ export default {
 
             .icon {
                 transition: color 0.5s ease;
-            }
 
-            .icon:hover {
-                color: var(--accent-color);
+                &:hover {
+                    color: var(--accent-color);
+                }
             }
         }
     }
