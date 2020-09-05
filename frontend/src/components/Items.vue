@@ -111,140 +111,130 @@ export default {
 </script>
 
 <style lang="scss">
-.listRow {
-    cursor: pointer;
-    padding-bottom: 5px;
-    display: flex;
-    align-items: stretch;
-    width: 100%;
-    height: 31px;
-}
-
-.listRow input {
-    width: 100%;
-    color: var(--main-color);
-    font-size: 23px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 200;
-    border: 1px solid var(--main-color);
-    border-radius: 3px;
-}
-
 .items {
     min-height: 123px;
-}
 
-.items ul {
-    padding-inline-start: 0px;
-}
+    ul {
+        padding-inline-start: 0px;
 
-.items ul li {
-    color: var(--main-color);
-    list-style: none;
-    display: flex;
-    flex: 1 1 auto;
-    font-size: 23px;
-    transition: color 1s ease;
-    min-width: 0;
-}
+        .listRow {
+            cursor: pointer;
+            padding-bottom: 5px;
+            display: flex;
+            align-items: stretch;
+            width: 100%;
+            height: 31px;
 
-.items ul li .popperOuter {
-    display: flex;
-    width: 100%;
-}
+            .popperOuter {
+                .popper {
+                    color: var(--main-color);
+                    font-family: 'Montserrat', sans-serif;
+                }
+            }
 
-.items ul li .popperOuter .popper {
-    font-size: 23px;
-    font-weight: 200;
-}
+            li {
+                color: var(--main-color);
+                list-style: none;
+                display: flex;
+                flex: 1 1 auto;
+                font-size: 23px;
+                transition: color 1s ease;
+                min-width: 0;
 
-.items ul .popperOuter .popper {
-    color: var(--main-color);
-    font-family: 'Montserrat', sans-serif;
-}
+                .popperOuter {
+                    display: flex;
+                    width: 100%;
 
-.items ul .buttonBox .icon {
-    transition: color 0.5s ease;
-}
+                    .popper {
+                        font-size: 23px;
+                        font-weight: 200;
+                    }
 
-.items ul .buttonBox .icon:hover {
-    color: var(--accent-color);
-}
+                    .title {
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        position: relative;
+                        transition: color 0.3s ease;
 
-.items ul li .title {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    position: relative;
-    transition: color 0.3s ease;
-}
+                        .lineThrough {
+                            background-color: var(--sec-text-color);
+                            bottom: 0;
+                            display: block;
+                            height: 1px;
+                            margin: auto 0;
+                            position: absolute;
+                            top: 0;
+                            width: 100%;
+                        }
 
-.title:hover {
-    color: var(--sec-text-color);
-}
+                        .lineThrough-enter-active,
+                        .lineThrough-leave-active {
+                            transition: width 1s ease;
+                        }
 
-.items .checked {
-    color: var(--sec-text-color);
-}
+                        .lineThrough-enter,
+                        .lineThrough-leave-to {
+                            width: 0;
+                        }
+                    }
 
-.items li .lineThrough {
-    background-color: var(--sec-text-color);
-    bottom: 0;
-    display: block;
-    height: 1px;
-    margin: auto 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-}
+                    .title:hover {
+                        color: var(--sec-text-color);
+                    }
+                }
 
-.items li .lineThrough-enter-active,
-.items li .lineThrough-leave-active {
-    transition: width 1s ease;
-}
+                input {
+                    width: 100%;
+                    color: var(--main-color);
+                    font-size: 23px;
+                    font-family: 'Montserrat', sans-serif;
+                    font-weight: 200;
+                    border: 1px solid var(--main-color);
+                    border-radius: 3px;
+                }
+            }
 
-.items li .lineThrough-enter,
-.items li .lineThrough-leave-to {
-    width: 0;
-}
+            .buttonBox {
+                display: flex;
+                flex: 0 0 15px;
+                height: 100%;
+                align-items: center;
 
-.bubble {
-    width: 15px;
-    height: 15px;
-    border: 1px solid var(--main-color);
-    border-radius: 100%;
-}
+                .bubble {
+                    width: 15px;
+                    height: 15px;
+                    border: 1px solid var(--main-color);
+                    border-radius: 100%;
+                }
 
-.buttonBox {
-    display: flex;
-    flex: 0 0 15px;
-    height: 100%;
-    align-items: center;
-}
+                .checked{
+                    background-color: var(--accent-color);
+                    border-color: var(--accent-color);
+                }
 
-.delete {
-    font-size: 25px;
-    line-height: 15px;
-    margin-right: 11px;
-    margin-left: 5px;
-    color: var(--main-color);
-}
+                .checkBubble {
+                    margin-left: 11px;
+                    transition: all 0.75s ease;
+                }
 
-.checkBubble {
-    margin-left: 11px;
-}
+                .checkBubble:hover {
+                    box-shadow: 0px 0px 10px 2px var(--main-color);
+                }
+            }
 
-.delete, .checkBubble {
-    transition: all 0.75s ease;
-}
+            .checked {
+                color: var(--sec-text-color);
+            }
 
-.checkBubble:hover, .delete:hover {
-    box-shadow: 0px 0px 10px 2px var(--main-color);
-}
+            .icon {
+                transition: color 0.5s ease;
+            }
 
-.items .checkBubble.checked{
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
+            .icon:hover {
+                color: var(--accent-color);
+            }
+        }
+    }
 }
-
 </style>
