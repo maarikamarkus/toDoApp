@@ -48,13 +48,13 @@ export default {
             this.axios = null;
             window.localStorage.removeItem('token');
         },
-
+        
         async getList() {
             const res = await this.axios.get(
                 `${process.env.VUE_APP_BACKEND_URL}/todo`,
             );
             this.items = res.data;
-            setTimeout(this.getList, 1000);
+            setTimeout(this.getList, 2000);
         },
 
         setToken(token) {
