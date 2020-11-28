@@ -13,29 +13,27 @@
 
 <script>
 export default {
-    props: ['items'],
+    props: ['items', 'state'],
 
     data() {
         return {
             newItem: '',
-            state: 'list',
         };
     },
 
     methods: {
         showAddItem() {
-            this.state = 'edit';
+            this.$emit('showAddItem');
             this.$nextTick(() => this.$refs.inputField.focus());
         },
 
         hideAddItem() {
-            this.state = 'list';
+            this.$emit('hideAddItem');
         },
 
         async addItem() {
             const newItem = { title: this.newItem, state: false };
 
-            this.state = 'list';
             if (this.newItem !== '') {
                 this.$emit('addItem', newItem);
             }

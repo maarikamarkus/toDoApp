@@ -48,7 +48,7 @@ const popperOptions = {
 };
 
 export default {
-    props: ['items'],
+    props: ['items', 'state'],
 
     components: {
         popper: Popper,
@@ -74,6 +74,7 @@ export default {
         },
 
         editTitle(id) {
+            this.$emit('editTitle');
             this.editID = id;
             const item = this.items.find((x) => x.id === id);
             this.newTitle = item.title;
@@ -94,6 +95,7 @@ export default {
         hideUpdateTitle() {
             this.editID = null;
             this.newTitle = null;
+            this.$emit('hideUpdateTitle');
         },
     },
 

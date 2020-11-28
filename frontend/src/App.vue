@@ -2,11 +2,16 @@
   #app(v-if="token")
     #innerApp
       Header(@logout="logout")
-      Items(:items="items" 
+      Items(:items="items" :state="state"
         @markDoneUndone="markDoneUndone"
         @deleteItem="deleteItem"
-        @updateTitle="updateTitle")
-      Footer(:items="items" @addItem="addItem")
+        @updateTitle="updateTitle"
+        @editTitle="editTitle"
+        @hideUpdateTitle="hideUpdateTitle")
+      Footer(:items="items" :state="state" 
+        @addItem="addItem"
+        @showAddItem="showAddItem"
+        @hideAddItem="hideAddItem")
   Login(v-else @login="login")
 </template>
 
@@ -33,6 +38,7 @@ export default {
             items: [],
             token: null,
             axios: null,
+            state: 'list',
         };
     },
 
@@ -82,13 +88,26 @@ export default {
             this.items.splice(itemIndex, 1);
         },
 
+        showAddItem() {
+            this.state = 'edit';
+        },
+
+        hideAddItem() {
+            this.state = 'list';
+        },
+
         async addItem(newItem) {
+            this.state = 'list';
             const res = await this.axios.post(
                 `${process.env.VUE_APP_BACKEND_URL}/todo`,
                 newItem,
             );
             newItem.id = parseInt(res.data, 10); // eslint-disable-line no-param-reassign
             this.items.push(newItem);
+        },
+
+        editTitle() {
+            this.state = 'editTitle';
         },
 
         async updateTitle(params) {
@@ -98,6 +117,11 @@ export default {
                 `${process.env.VUE_APP_BACKEND_URL}/todo/update/${params.id}`,
                 item,
             );
+            this.state = 'list';
+        },
+
+        hideUpdateTitle() {
+            this.state = 'list';
         },
     },
 
