@@ -10,7 +10,7 @@ You can toggle the language setting between Estonian and English.
 
 
 
-### Commands for use in source folder
+### Commands for use in frontend
 
 #### Setup and dependencies install
 ```
