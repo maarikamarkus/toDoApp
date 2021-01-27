@@ -68,6 +68,19 @@ public class ToDoController {
   }
 
   // update item title in todo list
+  @PutMapping(
+          value = "/todo/update/{id}",
+          consumes = "application/json"
+  )
+  public ToDoItem updateTitle(@RequestBody String newTitle, @PathVariable int id) {
+    for (ToDoItem item : toDoList) {
+      if (item.getId() == id) {
+        item.setTitle(newTitle);
+        return item;
+      }
+    }
+    return null;
+  }
 
   // login
 
