@@ -42,8 +42,26 @@ public class ToDoController {
 
     return newItem;
   }
-}
 
-	/*
-	{ id: row.id, title: row.title, state }
-	 */
+  // delete item from todo list
+  @DeleteMapping("/todo/{id}")
+  public List<ToDoItem> deleteToDoItem(@PathVariable int id) {
+    for (int i = 0; i < toDoList.size(); i++) {
+      if (toDoList.get(i).getId() == id) {
+        toDoList.remove(i);
+        break;
+      }
+    }
+    return toDoList;
+  }
+
+  // update state of item in todo list
+
+  // update item title in todo list
+
+  // login
+
+  // registering
+
+  // database
+}
