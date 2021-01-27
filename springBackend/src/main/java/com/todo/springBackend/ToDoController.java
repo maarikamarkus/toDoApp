@@ -56,6 +56,16 @@ public class ToDoController {
   }
 
   // update state of item in todo list
+  @PutMapping("/todo/{id}")
+  public ToDoItem updateState(@PathVariable int id) {
+    for (ToDoItem item : toDoList) {
+      if (item.getId() == id) {
+        item.setStatus(!item.isStatus());
+        return item;
+      }
+    }
+    return null;
+  }
 
   // update item title in todo list
 
