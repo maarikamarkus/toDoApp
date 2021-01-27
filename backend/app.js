@@ -153,4 +153,4 @@ function closePool() {
     pool.end();
 }
 
-module.exports = { app: app, closePool: closePool };
+module.exports = { app, closePool };
