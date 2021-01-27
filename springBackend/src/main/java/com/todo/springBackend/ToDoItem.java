@@ -3,12 +3,12 @@ package com.todo.springBackend;
 public class ToDoItem {
   private int id;
   private String title;
-  private boolean state;
+  private boolean status;
 
-  public ToDoItem(int id, String title, boolean state) {
+  public ToDoItem(int id, String title, boolean status) {
     this.id = id;
     this.title = title;
-    this.state = state;
+    this.status = status;
   }
 
   public int getId() {
@@ -27,12 +27,12 @@ public class ToDoItem {
     this.title = title;
   }
 
-  public boolean isState() {
-    return state;
+  public boolean isStatus() {
+    return status;
   }
 
-  public void setState(boolean state) {
-    this.state = state;
+  public void setStatus(boolean status) {
+    this.status = status;
   }
 
   @Override

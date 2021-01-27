@@ -1,9 +1,7 @@
 package com.todo.springBackend;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +13,7 @@ public class ToDoController {
 
   public ToDoController() {
     this.toDoList = new ArrayList<>();
+    toDoList.add(new ToDoItem(0, "test", false));
   }
 
   @RequestMapping("/")
@@ -22,12 +21,26 @@ public class ToDoController {
     return "Olen ToDoControlleris!";
   }
 
-  @PostMapping("/todo")
-  public String newItem(@RequestBody String newTitle) {
-    ToDoItem newItem = new ToDoItem(0, newTitle, false);
+
+  @GetMapping(
+          value = "/todo",
+          produces = "application/json"
+  )
+  public @ResponseBody List<ToDoItem> getToDoList()
+  {
+    return toDoList;
+  }
+
+  @PostMapping(
+          value = "/todo",
+          consumes = "application/json",
+          produces = "application/json"
+  )
+  public ToDoItem newItem(@RequestBody ToDoItem newItem) {
     toDoList.add(newItem);
     System.out.println(toDoList.toString());
-    return "Added " + newTitle;
+
+    return newItem;
   }
 }
 
