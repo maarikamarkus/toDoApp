@@ -1,12 +1,21 @@
 package com.todo.springBackend;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class ToDoItem {
-  private int id;
+  @Id
+  @GeneratedValue(strategy= GenerationType.AUTO)
+  private Integer id;
   private String title;
   private boolean status;
 
-  public ToDoItem(int id, String title, boolean status) {
-    this.id = id;
+  public ToDoItem() {}
+
+  public ToDoItem(String title, boolean status) {
     this.title = title;
     this.status = status;
   }

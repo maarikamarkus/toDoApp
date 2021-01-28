@@ -1,5 +1,6 @@
 package com.todo.springBackend;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,11 +10,14 @@ import java.util.List;
 @RestController
 public class ToDoController {
 
+  @Autowired
+  private ToDoItemRepository toDoItemRepository;
+
   public List<ToDoItem> toDoList;
 
   public ToDoController() {
     this.toDoList = new ArrayList<>();
-    toDoList.add(new ToDoItem(0, "test", false));
+    toDoList.add(new ToDoItem("test", false));
   }
 
   @RequestMapping("/")
@@ -21,14 +25,13 @@ public class ToDoController {
     return "Olen ToDoControlleris!";
   }
 
-
   @GetMapping(
           value = "/todo",
           produces = "application/json"
   )
-  public @ResponseBody List<ToDoItem> getToDoList()
+  public @ResponseBody Iterable<ToDoItem> getToDoList()
   {
-    return toDoList;
+    return toDoItemRepository.findAll();
   }
 
   @PostMapping(

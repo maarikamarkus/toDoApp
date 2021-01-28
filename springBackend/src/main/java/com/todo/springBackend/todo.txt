@@ -1,0 +1,13 @@
+kas muuta ToDoItem id tüüp Longiks?
+
+kas proovida teha db osa alguses H2-ga?
+
+või kohe uurida, kuidas MySQL-iga teha?
+
+xampp ja mysql
+start mysql
+start apache
+
+shellis
+mysql --user=root
+use spring_todo
