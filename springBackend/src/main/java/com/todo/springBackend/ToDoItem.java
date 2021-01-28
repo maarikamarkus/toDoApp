@@ -15,16 +15,16 @@ public class ToDoItem {
 
   public ToDoItem() {}
 
-  public ToDoItem(String title, boolean status) {
+  public ToDoItem(String title) {
     this.title = title;
-    this.status = status;
+    this.status = false;
   }
 
-  public int getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 

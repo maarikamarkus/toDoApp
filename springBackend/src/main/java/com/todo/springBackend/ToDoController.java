@@ -17,7 +17,7 @@ public class ToDoController {
 
   public ToDoController() {
     this.toDoList = new ArrayList<>();
-    toDoList.add(new ToDoItem("test", false));
+    toDoList.add(new ToDoItem("test"));
   }
 
   @RequestMapping("/")
@@ -40,27 +40,31 @@ public class ToDoController {
           produces = "application/json"
   )
   public ToDoItem newItem(@RequestBody ToDoItem newItem) {
+    /*
     toDoList.add(newItem);
     System.out.println(toDoList.toString());
-
-    return newItem;
+    */
+    ToDoItem item = new ToDoItem(newItem.getTitle());
+    toDoItemRepository.save(item);
+    return item;
   }
 
   // delete item from todo list
   @DeleteMapping("/todo/{id}")
-  public List<ToDoItem> deleteToDoItem(@PathVariable int id) {
-    for (int i = 0; i < toDoList.size(); i++) {
+  public Iterable<ToDoItem> deleteToDoItem(@PathVariable Integer id) {
+    /*for (int i = 0; i < toDoList.size(); i++) {
       if (toDoList.get(i).getId() == id) {
         toDoList.remove(i);
         break;
       }
-    }
-    return toDoList;
+    }*/
+    toDoItemRepository.deleteById(id);
+    return toDoItemRepository.findAll();
   }
 
   // update state of item in todo list
   @PutMapping("/todo/{id}")
-  public ToDoItem updateState(@PathVariable int id) {
+  public ToDoItem updateState(@PathVariable Integer id) {
     for (ToDoItem item : toDoList) {
       if (item.getId() == id) {
         item.setStatus(!item.isStatus());
@@ -75,7 +79,7 @@ public class ToDoController {
           value = "/todo/update/{id}",
           consumes = "application/json"
   )
-  public ToDoItem updateTitle(@RequestBody String newTitle, @PathVariable int id) {
+  public ToDoItem updateTitle(@RequestBody String newTitle, @PathVariable Integer id) {
     for (ToDoItem item : toDoList) {
       if (item.getId() == id) {
         item.setTitle(newTitle);
