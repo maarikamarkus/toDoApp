@@ -1,7 +1,6 @@
 package com.todo.springBackend;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -40,10 +39,6 @@ public class ToDoController {
           produces = "application/json"
   )
   public ToDoItem newItem(@RequestBody ToDoItem newItem) {
-    /*
-    toDoList.add(newItem);
-    System.out.println(toDoList.toString());
-    */
     ToDoItem item = new ToDoItem(newItem.getTitle());
     toDoItemRepository.save(item);
     return item;
@@ -52,12 +47,6 @@ public class ToDoController {
   // delete item from todo list
   @DeleteMapping("/todo/{id}")
   public Iterable<ToDoItem> deleteToDoItem(@PathVariable Integer id) {
-    /*for (int i = 0; i < toDoList.size(); i++) {
-      if (toDoList.get(i).getId() == id) {
-        toDoList.remove(i);
-        break;
-      }
-    }*/
     toDoItemRepository.deleteById(id);
     return toDoItemRepository.findAll();
   }
@@ -65,12 +54,15 @@ public class ToDoController {
   // update state of item in todo list
   @PutMapping("/todo/{id}")
   public ToDoItem updateState(@PathVariable Integer id) {
-    for (ToDoItem item : toDoList) {
-      if (item.getId() == id) {
-        item.setStatus(!item.isStatus());
-        return item;
-      }
+    if (toDoItemRepository.existsById(id)) {
+      // change status to !status
+      ToDoItem item = toDoItemRepository.findById(id).get();
+      item.setStatus(!item.isStatus());
+      toDoItemRepository.save(item);
+      return item;
     }
+    // else exception
+
     return null;
   }
 
@@ -79,19 +71,19 @@ public class ToDoController {
           value = "/todo/update/{id}",
           consumes = "application/json"
   )
-  public ToDoItem updateTitle(@RequestBody String newTitle, @PathVariable Integer id) {
-    for (ToDoItem item : toDoList) {
-      if (item.getId() == id) {
-        item.setTitle(newTitle);
-        return item;
-      }
+  public ToDoItem updateTitle(@RequestBody ToDoItem toDoItem, @PathVariable Integer id) {
+    if (toDoItemRepository.existsById(id)) {
+      ToDoItem item = toDoItemRepository.findById(id).get();
+      item.setTitle(toDoItem.getTitle());
+      toDoItemRepository.save(item);
+      return item;
     }
+    // else exception
+
     return null;
   }
 
   // login
 
   // registering
-
-  // database
 }
